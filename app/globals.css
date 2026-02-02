@@ -1,0 +1,144 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Modern Portfolio Design System - All colors, gradients, fonts, etc defined here.
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    --background: 0 0% 98%;
+    --foreground: 222 47% 11%;
+
+    --card: 0 0% 95%;
+    --card-foreground: 222 47% 11%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+
+    --primary: 222 47% 11%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 40% 92%;
+    --secondary-foreground: 222 47% 11%;
+
+    --muted: 210 40% 92%;
+    --muted-foreground: 215 16% 47%;
+
+    --accent: 217 32% 18%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 220 13% 88%;
+    --input: 220 13% 88%;
+    --ring: 217 92% 60%;
+
+    --radius: 1rem;
+
+    /* Portfolio specific design tokens */
+    --nav-background: 0 0% 100% / 0.1;
+    --nav-foreground: 222 47% 11%;
+    --nav-active: 217 92% 60%;
+    --nav-active-foreground: 0 0% 100%;
+    --nav-border: 0 0% 100% / 0.2;
+
+    --hero-background: 0 0% 98%;
+    --hero-foreground: 222 47% 11%;
+
+    --project-card: 0 0% 100% / 0.1;
+    --project-card-hover: 0 0% 100% / 0.2;
+    --project-card-border: 0 0% 100% / 0.2;
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(217 92% 60%), hsl(230 85% 70%));
+    --gradient-hero: linear-gradient(180deg, hsl(0 0% 98%), hsl(210 40% 96%));
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%), hsl(210 40% 98%));
+
+    /* Shadows */
+    --shadow-soft: 0 4px 16px hsl(222 47% 11% / 0.08);
+    --shadow-medium: 0 8px 32px hsl(222 47% 11% / 0.12);
+    --shadow-card: 0 2px 8px hsl(222 47% 11% / 0.06);
+
+    /* Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    overflow-x: hidden;
+  }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+  }
+
+  /* Hide scrollbar but keep functionality */
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* For Firefox */
+  html {
+    scrollbar-width: none;
+  }
+
+  /* For IE and Edge */
+  body {
+    -ms-overflow-style: none;
+  }
+
+  /* Selection styling */
+  ::selection {
+    @apply bg-primary/20 text-primary-foreground;
+  }
+
+  /* Focus styles */
+  *:focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
+
+  /* Prevent layout shifts from images */
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Reduce motion for users who prefer it */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}

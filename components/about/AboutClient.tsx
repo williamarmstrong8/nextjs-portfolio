@@ -1,0 +1,310 @@
+"use client";
+
+import Link from "next/link";
+import { Briefcase } from "lucide-react";
+import { motion } from "framer-motion";
+import AboutCard from "@/components/AboutCard";
+import Timeline from "@/components/Timeline";
+
+export default function AboutClient() {
+  // About cards data (do not change)
+  const aboutCards = [
+    {
+      title: "Engineer",
+      description:
+        "Ship user-focused products across AI and SaaS using React, Next.js, Supabase, and analytics. Optimize workflows and reduce time-to-value through tight iteration loops.",
+      icon: (
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
+          />
+        </svg>
+      ),
+    },
+    {
+      title: "Entrepreneur",
+      description:
+        "Founder driven by building early-stage startups through product-first thinking and rapid iteration. Own vision, roadmap, and end-to-end delivery from UX to implementation.",
+      icon: (
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+          />
+        </svg>
+      ),
+    },
+    {
+      title: "Leader",
+      description:
+        "Led 60+ person teams and owned operational execution across fast-moving environments. Turn strategy into measurable outcomes through systems, tracking, and accountability.",
+      icon: (
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+          />
+        </svg>
+      ),
+    },
+  ];
+
+  // Education timeline data (kept, but not rendered)
+  const educationItems = [
+    {
+      title: "Boston College",
+      subtitle:
+        "Bachelor of Science in Human-Centered Engineering, Minor in General Business",
+      date: "August 2022 — May 2026",
+      description:
+        "Relevant courses include Machine Learning & Statistical Data Analysis, Computation and Programming, Circuits, Physical Modeling and Lab Analysis, Statics and Mechanics, Marketing, Engineering for Society, and Thermodynamics. Emphasizing Jesuit education blending rigorous academics with social responsibility and community impact.",
+    },
+    {
+      title: "Saint Ignatius College Preparatory",
+      subtitle: "High School Diploma",
+      date: "2018 – 2022",
+      description:
+        "Graduated from a Jesuit high school in San Francisco known for academic excellence and its focus on developing leaders dedicated to service and justice.",
+    },
+  ];
+
+  // Experience timeline data (keep + render)
+  const experienceItems = [
+    {
+      title: "ClubPack",
+      subtitle: "Founder & Product Manager",
+      date: "May 2025 – Present",
+      description:
+        "Founded and built a multi-tenant SaaS platform for student and social clubs, serving 25+ active organizations. Own product vision and roadmap; designed UX and shipped end-to-end flows with React, Supabase, and Tailwind, iterating directly from user feedback. Selected for the Boston College Shea Accelerator and awarded $1,500 in funding.",
+    },
+    {
+      title: "AdviserGPT",
+      subtitle: "Product Intern",
+      date: "May 2025 – August 2025",
+      description:
+        "Partnered with engineers and leadership to iterate onboarding and core workflows for an AI content generation platform serving financial firms. Built a standalone AI blog generation product end-to-end (OpenAI API), reducing content creation time by ~80% and improving SEO content velocity. Produced demo assets and motion content in Adobe Suite to support sales and onboarding.",
+    },
+    {
+      title: "Mark Farrell for Mayor Campaign",
+      subtitle: "Operations & Strategy Lead",
+      date: "May 2024 – August 2024",
+      description:
+        "Led and trained a 60+ person intern team across field and digital outreach, owning scheduling, resource allocation, and daily operations. Designed data-driven workflows and tracking systems to prioritize high-impact activities, improving campaign efficiency by ~30%. Translated leadership strategy into day-to-day execution under shifting constraints.",
+    },
+    {
+      title: "Orangetheory Fitness",
+      subtitle: "Growth & Operations Associate",
+      date: "June 2023 – August 2023",
+      description:
+        "Onboarded 20+ new members through targeted outreach and personalized fitness assessments, supporting studio growth and retention. Improved onboarding flows and messaging by partnering with coaches and associates and incorporating customer feedback to increase conversion and overall member experience.",
+    },
+  ];
+
+  // Entrepreneur/Club activities data (keep + render)
+  const entrepreneurItems = [
+    {
+      title: "Soaring Startup Circle Venture",
+      subtitle: "Senior Analyst",
+      date: "August 2024 – May 2025",
+      description:
+        "Supported early-stage teams with prototyping, positioning, and go-to-market thinking. Helped translate ideas into testable MVPs through structured feedback, venture workshops, and iteration cycles.",
+    },
+    {
+      title: "West End House Boys and Girls Club",
+      subtitle: "Volunteer",
+      date: "August 2023 – June 2024",
+      description:
+        "Mentored youth in an after-school program by building a consistent, high-energy learning environment. Designed activities around shared interests and supported growth through relationship-building and structured routines.",
+    },
+  ];
+
+  return (
+    <div className="min-h-screen bg-background text-foreground">
+      <main className="px-4 md:px-20 pt-8 pb-16">
+        {/* Page Title */}
+        <motion.section
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            duration: 0.6,
+            ease: [0.25, 0.46, 0.45, 0.94],
+            delay: 0.1,
+          }}
+        >
+          <motion.h1
+            className="text-6xl md:text-8xl lg:text-9xl font-bold text-foreground leading-none"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{
+              duration: 0.7,
+              ease: [0.25, 0.46, 0.45, 0.94],
+              delay: 0.2,
+            }}
+          >
+            About Me
+          </motion.h1>
+          <motion.p
+            className="text-xl text-muted-foreground mt-6 max-w-3xl mx-auto"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+              duration: 0.5,
+              ease: [0.25, 0.46, 0.45, 0.94],
+              delay: 0.4,
+            }}
+          >
+            Product-driven, human-centered engineer building user-focused software
+            across AI and SaaS with a bias toward shipping, metrics, and iteration.
+          </motion.p>
+        </motion.section>
+
+        {/* About Cards (unchanged) */}
+        <motion.section
+          className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{
+            duration: 0.3,
+            delay: 0.6,
+          }}
+        >
+          {aboutCards.map((card, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20, scale: 0.9 }}
+              animate={{
+                opacity: 1,
+                y: 0,
+                scale: 1,
+                transition: {
+                  duration: 0.4,
+                  delay: 0.7 + index * 0.1,
+                  ease: [0.25, 0.46, 0.45, 0.94],
+                },
+              }}
+              whileHover={{
+                y: -4,
+                transition: { duration: 0.2 },
+              }}
+            >
+              <AboutCard
+                title={card.title}
+                description={card.description}
+                icon={card.icon}
+              />
+            </motion.div>
+          ))}
+        </motion.section>
+
+        {/* Restructured Timeline: Work Experience Only */}
+        <motion.div
+          className="space-y-20"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{
+            duration: 0.3,
+            delay: 0.9,
+          }}
+        >
+          <Timeline
+            title="Work Experience"
+            icon={<Briefcase className="size-8" strokeWidth={2} />}
+            items={experienceItems}
+          />
+
+          <Timeline
+            title="Leadership & Service"
+            icon={
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                />
+              </svg>
+            }
+            items={entrepreneurItems}
+          />
+        </motion.div>
+
+        {/* Call to Action (unchanged) */}
+        <motion.section
+          className="mt-20 text-center"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            duration: 0.5,
+            ease: [0.25, 0.46, 0.45, 0.94],
+            delay: 1.8,
+          }}
+        >
+          <motion.div
+            className="bg-card backdrop-blur-md border border-border rounded-3xl p-12 max-w-4xl mx-auto"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{
+              duration: 0.4,
+              ease: [0.25, 0.46, 0.45, 0.94],
+              delay: 1.9,
+            }}
+            whileHover={{
+              scale: 1.02,
+              transition: { duration: 0.2 },
+            }}
+          >
+            <motion.h2
+              className="text-3xl font-bold text-foreground mb-4"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: 0.4,
+                ease: [0.25, 0.46, 0.45, 0.94],
+                delay: 2.0,
+              }}
+            >
+              Let&apos;s Work Together
+            </motion.h2>
+            <motion.p
+              className="text-muted-foreground mb-8 max-w-2xl mx-auto"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: 0.4,
+                ease: [0.25, 0.46, 0.45, 0.94],
+                delay: 2.1,
+              }}
+            >
+              I&apos;m always interested in new opportunities, collaborations, and
+              meaningful projects. Let&apos;s connect and build something amazing
+              together.
+            </motion.p>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: 0.4,
+                ease: [0.25, 0.46, 0.45, 0.94],
+                delay: 2.2,
+              }}
+            >
+              <Link href="/contact">
+                <button className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-full px-8 py-3 font-semibold transition-all duration-300 ease-out hover:scale-105">
+                  Get In Touch
+                </button>
+              </Link>
+            </motion.div>
+          </motion.div>
+        </motion.section>
+      </main>
+    </div>
+  );
+}

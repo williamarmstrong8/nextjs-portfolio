@@ -1,0 +1,149 @@
+export interface Brand {
+  name: string;
+  logo: string;
+  description: string;
+  category: string;
+  status: "Active" | "Launched" | "In Beta" | "In Funding";
+  metrics: { label: string; value: string }[];
+  website: string;
+  longDescription?: string;
+  frameworks?: string[];
+  screenshots?: string[];
+  accomplishments?: string[];
+  features?: string[];
+}
+
+export const brands: Brand[] = [
+  {
+    name: "Club Pack",
+    logo: "/clubpack_logo.svg",
+    description: "A SaaS platform that solves the fragmented software problem for social club founders. ClubPack centralizes everything needed to run a club - from event creation and RSVP management to custom websites and analytics - all in one place.",
+    category: "Sports & Community",
+    status: "In Funding",
+    metrics: [
+      { label: "Clubs Trialing", value: "25+" },
+      { label: "Funding Raised", value: "$1,500" }
+    ],
+    website: "https://www.joinclubpack.com/",
+    longDescription: "ClubPack is a comprehensive SaaS platform designed specifically for social club founders and managers. It addresses the core problem of fragmented club management by providing a unified solution that handles everything from event planning and RSVP tracking to custom website creation and detailed analytics. The platform streamlines club operations, reduces administrative overhead, and provides valuable insights to help clubs grow and thrive.",
+    frameworks: ["React", "Node.js", "Supabase", "Stripe API"],
+    screenshots: [
+      "/brands/clubpack/clubpack.png",
+      "/brands/clubpack/screenshot.png"
+    ],
+    accomplishments: [
+      "25+ clubs currently in trial phase",
+      "$1,500 in pre-seed funding secured",
+      "Featured in Boston College entrepreneurship showcase"
+    ],
+    features: [
+      "Event creation and RSVP management",
+      "Custom website builder",
+      "Member analytics dashboard",
+      "Automated communication tools",
+      "Payment processing integration"
+    ]
+  },
+  {
+    name: "Mod Brew",
+    logo: "/modbrew_logo.svg",
+    description: "A speakeasy-style coffee pop-up that disrupted campus coffee culture by offering premium quality coffee at student-friendly prices. ModBrew created an exclusive, in-the-know brand that became a campus phenomenon within a week.",
+    category: "Coffee & Lifestyle",
+    status: "Active",
+    metrics: [
+      { label: "Customers", value: "1000+" },
+      { label: "Per Pop-up", value: "$300-400" }
+    ],
+    website: "https://modbrew.vercel.app/",
+    longDescription: "ModBrew revolutionized campus coffee culture by introducing a speakeasy-style coffee experience. What started as a freshman year entrepreneurial experiment quickly became a campus sensation, serving over 1000 customers and generating significant revenue through strategic pop-up locations and premium pricing strategy.",
+    frameworks: ["Social Media Marketing", "WordPress", "Canva", "Mailchimp"],
+    screenshots: [
+      "/brands/modbrew/wide.jpeg",
+      "/brands/modbrew/group.jpeg",
+      "/brands/modbrew/hand.jpeg",
+      "/brands/modbrew/window.jpeg",
+      "/brands/modbrew/hub.png",
+      "/brands/modbrew/line1.jpeg",
+      "/brands/modbrew/line2.jpeg",
+      "/brands/modbrew/mary.jpeg",
+      "/brands/modbrew/shop.jpeg",
+      "/brands/modbrew/shop2.jpeg"
+    ],
+    accomplishments: [
+      "Served 1000+ customers in first semester",
+      "$300-400 profit per pop-up event",
+      "Campus-wide brand recognition within one week",
+      "Aquired school-wide funding"
+    ],
+    features: [
+      "Premium coffee selection",
+      "Speakeasy-style branding",
+      "Strategic location selection",
+      "Social media marketing",
+    ]
+  },
+  {
+    name: "Happy Mile Run Club",
+    logo: "/happymile_logo.svg",
+    description: "A viral San Francisco run club that filled the gap for free, fun, young, and social running communities. HappyMile leveraged social media to create partnerships with local businesses, offering free benefits to members while building a thriving community.",
+    category: "Health & Wellness",
+    status: "Launched",
+    metrics: [
+      { label: "Weekly Runners", value: "100+" },
+      { label: "Major Achievement", value: "Nike Partnership" }
+    ],
+    website: "https://happymilerc.com/",
+    longDescription: "HappyMile emerged from the need for accessible, social running communities in San Francisco. By combining fitness with community building, the club created a viral movement that attracted over 100 weekly participants and secured major brand partnerships including Nike. The club's success demonstrates the power of combining passion projects with strategic business development.",
+    frameworks: ["Social media marketing", "Google Maps", "Strava Integration", "Mailchimp"],
+    screenshots: [
+      "/brands/happy-mile/me.jpeg",
+      "/brands/happy-mile/2BC3E075-F7BF-4177-A916-514E63D772A6_1_102_o.jpeg",
+      "/brands/happy-mile/group.jpeg"
+    ],
+    accomplishments: [
+      "100+ weekly active runners",
+      "Nike partnership secured",
+      "Featured in local San Francisco media",
+      "Multiple business sponsorships",
+      "Community expansion to other cities"
+    ],
+    features: [
+      "Weekly group runs",
+      "Social media community building",
+      "Business partnership program",
+      "Free member benefits",
+      "Event photography and highlights"
+    ]
+  },
+  {
+    name: "Destination Drifters",
+    logo: "/drifters_logo.svg",
+    description: "An outdoor travel brand I created freshman year of college to inspire people and share my love for the outdoors. I saw a lack of outdoor inspiration in my first year and built this social media and merchandise brand that became a recognizable staple on campus.",
+    category: "Travel & Adventure",
+    status: "Launched",
+    metrics: [
+      { label: "Views", value: "1M+" },
+      { label: "Merchandise Sales", value: "$3,500" }
+    ],
+    website: "https://destinationdrifters.com/",
+    longDescription: "Destination Drifters was born from my freshman year experience and the lack of outdoor inspiration content. Starting as a personal blog and Instagram account, it evolved into a full brand with merchandise sales and campus-wide recognition. The brand successfully monetized through merchandise and built a community of outdoor enthusiasts.",
+    frameworks: ["React", "Instagram Business", "Adobe Suite"],
+    screenshots: [
+      "/brands/drifters/3-shot.jpeg",
+      "/brands/drifters/ever-to-explore.jpeg",
+      "/brands/drifters/mary-claire.jpeg"
+    ],
+    accomplishments: [
+      "1M+ views accumulated",
+      "$3,500 in merchandise sales",
+      "Campus-wide brand recognition"
+    ],
+    features: [
+      "Outdoor adventure photography",
+      "Travel blogging and guides",
+      "Custom merchandise design",
+      "Social media content creation",
+      "Community building and engagement"
+    ]
+  }
+];

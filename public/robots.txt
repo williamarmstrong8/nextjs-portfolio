@@ -1,0 +1,33 @@
+# Allow all web crawlers access to the site
+User-agent: *
+Allow: /
+
+# Specific bot allowances for better social sharing
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: WhatsApp
+Allow: /
+
+# Disallow access to admin areas (if any exist)
+Disallow: /admin/
+Disallow: /api/private/
+Disallow: /.next/
+
+# Sitemap location
+Sitemap: https://williamarmstrong.dev/sitemap.xml
+
+# Crawl delay for respectful crawling
+Crawl-delay: 1
