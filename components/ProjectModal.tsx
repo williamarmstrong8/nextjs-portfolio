@@ -84,7 +84,31 @@ const ProjectModal = ({ isOpen, onClose, project }: ProjectModalProps) => {
               img.src = mediaItem.src;
             });
           } else {
-            ratios.push(16 / 9);
+            const vid = document.createElement("video");
+            await new Promise((resolve) => {
+              const cleanup = () => {
+                vid.onloadedmetadata = null;
+                vid.onerror = null;
+                // Help GC on some browsers
+                vid.src = "";
+              };
+
+              vid.onloadedmetadata = () => {
+                const w = vid.videoWidth || 16;
+                const h = vid.videoHeight || 9;
+                ratios.push(w / h);
+                cleanup();
+                resolve(true);
+              };
+              vid.onerror = () => {
+                ratios.push(16 / 9);
+                cleanup();
+                resolve(true);
+              };
+
+              vid.preload = "metadata";
+              vid.src = mediaItem.src;
+            });
           }
         }
         setMediaAspectRatios(ratios);
@@ -179,6 +203,19 @@ const ProjectModal = ({ isOpen, onClose, project }: ProjectModalProps) => {
                       onError={(e) => { (e.target as HTMLImageElement).src = "/placeholder.svg"; }}
                     />
                   </div>
+                ) : mediaItems.length === 1 && mediaItems[0].type === 'video' ? (
+                  <div className="flex justify-center w-full max-h-[70vh] rounded-2xl overflow-hidden bg-muted">
+                    <div
+                      className="relative flex items-center justify-center rounded-2xl overflow-hidden"
+                      style={{ aspectRatio: `${mediaAspectRatios[0]}`, maxHeight: "70vh" }}
+                    >
+                      <video
+                        src={mediaItems[0].src}
+                        className="max-h-[70vh] w-auto object-contain rounded-2xl"
+                        controls
+                      />
+                    </div>
+                  </div>
                 ) : (
                   <div className="relative rounded-2xl overflow-hidden bg-muted">
                     <div ref={containerRef} className="h-[600px] overflow-hidden">
@@ -204,7 +241,7 @@ const ProjectModal = ({ isOpen, onClose, project }: ProjectModalProps) => {
                             ) : (
                               <video
                                 src={mediaItem.src}
-                                className="h-full w-auto object-contain"
+                                className="h-full w-full object-contain"
                                 controls
                               />
                             )}
@@ -254,10 +291,19 @@ const ProjectModal = ({ isOpen, onClose, project }: ProjectModalProps) => {
                             onError={(e) => { (e.target as HTMLImageElement).src = "/placeholder.svg"; }}
                           />
                         ) : (
-                          <div className="w-full h-full bg-muted flex items-center justify-center">
-                            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                              <path d="M8 5v14l11-7z" />
-                            </svg>
+                          <div className="w-full h-full bg-muted relative">
+                            <video
+                              src={mediaItem.src}
+                              className="w-full h-full object-cover"
+                              muted
+                              playsInline
+                              preload="metadata"
+                            />
+                            <div className="absolute inset-0 flex items-center justify-center bg-black/10">
+                              <svg className="w-6 h-6 text-white drop-shadow" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z" />
+                              </svg>
+                            </div>
                           </div>
                         )}
                       </button>

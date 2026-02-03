@@ -18,11 +18,11 @@ export const projects: Project[] = [
   {
     id: 12,
     title: "AI Blog Generator",
-    category: "Engineering",
+    category: "Product",
     date: "November 2025",
     description: "AI-powered blog generation tool using OpenAI API to automate SEO-optimized content creation for companies and brands, featuring custom firm profiles and bulk generation capabilities.",
     longDescription: "I developed an AI blog generator that automates content creation for companies and brands to increase their SEO presence. The tool integrates with OpenAI's API to generate high-quality, SEO-optimized blog content tailored to each company's specific goals, identity, and market positioning. The system features sophisticated prompt engineering and custom firm profile creation, allowing for personalized content generation that aligns with each brand's unique voice and objectives. The platform supports both single blog post creation and parallel bulk generation, making it scalable for content marketing teams. Each generated blog is trained on SEO best practices and the specific market context of the target company, ensuring content that not only engages readers but also performs well in search rankings. The tool outputs MDX files that can be directly integrated into company websites, streamlining the content publishing workflow from generation to deployment.",
-    thumbnail: "/projects/AI Blog Generator/home.png",
+    thumbnail: "/projects/AI Blog Generator/articles.png",
     images: [
       "/projects/AI Blog Generator/articles.png",
       "/projects/AI Blog Generator/home.png",
@@ -47,7 +47,7 @@ export const projects: Project[] = [
   {
     id: 11,
     title: "Cora Fitness - Hybrid Athlete Brand",
-    category: "UI/UX",
+    category: "Demos",
     date: "October 2025",
     description: "Comprehensive fitness brand demo targeting the hybrid athlete niche, showcasing expertise in web design, AI branding, marketing strategy, and business development.",
     longDescription: "Cora is a demo fitness brand I created to demonstrate my comprehensive skills in web design, branding, AI powered design, marketing strategy, and business development. The brand targets the emerging hybrid athlete niche in the fitness industry, which focuses on athletes who train across multiple disciplines requiring both strength and endurance. The name 'Cora' derives from the concepts of strength and balance, which is visually emphasized through the brand's logo featuring a Roman column, symbolizing classical strength and structural stability. I utilized AI tools to create professional branding materials and realistic product demos, developing a complete brand identity from concept to execution. The project involved creating a fully functional website deployed on Vercel, designing a cohesive visual identity, developing marketing strategies for the hybrid athlete market, and creating product mockups that demonstrate real-world application. This project showcases my ability to develop a complete brand ecosystem while leveraging modern AI tools to enhance creative output and business strategy.",
@@ -77,7 +77,7 @@ export const projects: Project[] = [
   {
     id: 10,
     title: "Proof - Social Health Tracker",
-    category: "UI/UX",
+    category: "Product",
     date: "March 2025",
     description: "Social media app concept that gamifies health challenges through photo-based task tracking and social accountability, featuring a working prototype built with Flutter.",
     longDescription: "Proof is a social media app concept I developed to address the challenge of maintaining accountability in health and wellness goals. The app gamifies health challenges by requiring users to post photos as proof of completing tasks, which are then shared in a social feed for friends to see and provide encouragement. This creates a system of social accountability that motivates users to stay consistent with their health goals. The project presented a great UI/UX challenge, requiring me to design an intuitive interface that balances social features with privacy considerations. I used Figma for design mockups and prototyping, then built a working prototype using Cursor and Flutter. The app addresses the common problem of people starting health challenges but losing motivation without accountability, providing a solution that combines social connection with goal achievement.",
@@ -144,8 +144,8 @@ export const projects: Project[] = [
       "/projects/conveyor/conveyor1.jpg"
     ],
     videos: [
-      "/projects/conveyor/IMG_4890.MOV",
-      "/projects/conveyor/IMG_4885.MOV"
+      "/projects/conveyor/IMG_4885.MOV",
+      "/projects/conveyor/IMG_4890.MOV"
     ],
     technologies: ["DC Motors", "Arduino", "C++", "Circuit Design", "Human-Centered Design", "Business Engineering"],
     features: [
@@ -164,16 +164,13 @@ export const projects: Project[] = [
   {
     id: 13,
     title: "AdviserGPT - Product Launch Video",
-    category: "UI/UX",
+    category: "Demos",
     date: "Summer 2025",
     description:
       "Product launch video created during my AI internship at AdviserGPT, posted on LinkedIn and the company website to drive customer interest.",
     longDescription:
       "During my AI internship at AdviserGPT this summer, I created a professional product launch video that was posted on their LinkedIn and website to attract customers. This project required me to learn Adobe After Effects from scratch, while also utilizing Illustrator and Premiere Pro to create a fun, stylish, and modern demonstration of what the product does. The challenge was to take complex engineering and business visions and translate them into a creative, accessible format that would resonate with potential users. I developed a compelling visual narrative that showcased the product's capabilities in an engaging way, combining motion graphics, visual effects, and professional editing to create a polished final product. The video successfully brought the company's vision to life and served as a key marketing asset that drove customer engagement and product adoption.",
     thumbnail: "/projects/adviser_gpt/linkedin_cover_photo.jpg",
-    images: [
-      "/projects/adviser_gpt/linkedin_cover_photo.jpg"
-    ],
     videos: [
       "/projects/adviser_gpt/Adviser_GPT_Answer_DEMO.mp4"
     ],
@@ -201,7 +198,7 @@ export const projects: Project[] = [
   {
     id: 14,
     title: "Sort It Out - Client Web App",
-    category: "Engineering",
+    category: "Product",
     date: "June 2025",
     description:
       "Client website/web app built as my first monetized development project, taking a real business from concept to a polished, deployed product.",

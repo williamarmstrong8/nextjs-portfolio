@@ -14,6 +14,8 @@ function getColumnsCount(width: number) {
   return 1;
 }
 
+const FOLDER_ORDER = ["Graduation", "Landscape", "5k Run & Roll '25", "5k Run & Roll '24"];
+
 export default function PhotographyClient({ images }: { images: ImageItem[] }) {
   const [activeFilter, setActiveFilter] = useState("All");
   const [columnsCount, setColumnsCount] = useState(1);
@@ -27,7 +29,9 @@ export default function PhotographyClient({ images }: { images: ImageItem[] }) {
 
   const folders = useMemo(() => {
     const set = new Set(images.map((i) => i.folder));
-    return ["All", ...Array.from(set).sort()];
+    const ordered = FOLDER_ORDER.filter((f) => set.has(f));
+    const rest = Array.from(set).filter((f) => !FOLDER_ORDER.includes(f)).sort();
+    return ["All", ...ordered, ...rest];
   }, [images]);
 
   const filteredImages = useMemo(() => {

@@ -8,7 +8,7 @@ interface ProjectFilterProps {
 }
 
 const ProjectFilter = ({ activeFilter, onFilterChange }: ProjectFilterProps) => {
-  const filters = ["All", "Engineering", "UI/UX"];
+  const filters = ["All", "Engineering", "Demos", "Product"];
 
   return (
     <div className="flex gap-3 bg-card border border-border rounded-full p-2">
