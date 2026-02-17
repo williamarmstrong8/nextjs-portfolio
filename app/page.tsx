@@ -5,7 +5,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "William Armstrong - Product Engineer & Entrepreneur | Portfolio",
+  title: "William Armstrong | Portfolio",
   description: "Discover William Armstrong's portfolio: Product Engineer specializing in human-centered design, entrepreneur, and creative professional. Explore innovative projects, startups, and photography.",
   keywords: [
     "William Armstrong",
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     canonical: '/',
   },
   openGraph: {
-    title: "William Armstrong - Product Engineer & Entrepreneur",
+    title: "William Armstrong | Portfolio",
     description: "Portfolio of William Armstrong: Product Engineer specializing in human-centered design, entrepreneur, and creative professional building innovative solutions.",
     url: "https://williamarmstrong.dev",
     siteName: "William Armstrong Portfolio",
@@ -39,19 +39,19 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/william-1.JPG",
+        url: "/sharing-image.jpg",
         width: 1200,
         height: 630,
-        alt: "William Armstrong - Product Engineer & Entrepreneur",
+        alt: "William Armstrong | Portfolio",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "William Armstrong - Product Engineer & Entrepreneur",
+    title: "William Armstrong | Portfolio",
     description: "Portfolio of William Armstrong: Product Engineer specializing in human-centered design and innovative solutions.",
     creator: "@williamarmstrong",
-    images: ["/william-1.JPG"],
+    images: ["/sharing-image.jpg"],
   },
   robots: {
     index: true,
