@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { brands, type Brand } from "@/data/brands";
+import { BLUR_DATA_URL } from "@/lib/blur";
 
 const FEATURED_BRAND_NAMES = ["Club Pack", "Happy Mile Run Club", "Mod Brew"];
 
@@ -38,6 +39,8 @@ const ProjectsSection = () => {
                     alt={brand.name}
                     fill
                     sizes="(max-width: 768px) 100vw, 33vw"
+                    placeholder="blur"
+                    blurDataURL={BLUR_DATA_URL}
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                   <div className="absolute top-3 right-3">
@@ -53,6 +56,8 @@ const ProjectsSection = () => {
                     alt={brand.name}
                     width={120}
                     height={120}
+                    placeholder="blur"
+                    blurDataURL={BLUR_DATA_URL}
                     className="object-contain group-hover:scale-105 transition-transform duration-300"
                   />
                   <div className="absolute top-3 right-3">

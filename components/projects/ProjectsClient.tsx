@@ -93,47 +93,42 @@ const ProjectsClient = ({ projects }: ProjectsClientProps) => {
           />
         </motion.section>
 
-        {/* Projects Grid */}
-        <AnimatePresence mode="wait" initial={false}>
-          <motion.section
-            key={activeFilter}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-8"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
-          >
-            {filteredProjects.map((project, index) => (
-              <motion.div
-                key={`${activeFilter}:${project.id}`}
-                initial={{ opacity: 0, y: 24 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -12 }}
-                transition={{
-                  duration: 0.35,
-                  delay: 0.05 + index * 0.06,
-                  ease: [0.25, 0.46, 0.45, 0.94],
-                }}
-                whileHover={{
-                  y: -8,
-                  transition: { duration: 0.3 },
-                }}
-              >
-                <ProjectGridCard
-                  title={project.title}
-                  category={project.category}
-                  description={project.description}
-                  date={project.date}
-                  image={
-                    project.thumbnail ||
-                    (project.images && project.images.length > 0 ? project.images[0] : undefined)
-                  }
-                  onClick={() => handleProjectClick(project.id)}
-                />
-              </motion.div>
-            ))}
-          </motion.section>
-        </AnimatePresence>
+        {/* Projects Grid - same pattern as Startups: section then cards animate in order */}
+        <motion.section
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-8"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3, delay: 0.6 }}
+        >
+          {filteredProjects.map((project, index) => (
+            <motion.div
+              key={project.id}
+              initial={{ opacity: 0, y: 40, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{
+                duration: 0.6,
+                delay: 0.7 + index * 0.15,
+                ease: [0.25, 0.46, 0.45, 0.94],
+              }}
+              whileHover={{
+                y: -8,
+                transition: { duration: 0.3 },
+              }}
+            >
+              <ProjectGridCard
+                title={project.title}
+                category={project.category}
+                description={project.description}
+                date={project.date}
+                image={
+                  project.thumbnail ||
+                  (project.images && project.images.length > 0 ? project.images[0] : undefined)
+                }
+                onClick={() => handleProjectClick(project.id)}
+              />
+            </motion.div>
+          ))}
+        </motion.section>
 
         {/* Empty State */}
         <AnimatePresence>

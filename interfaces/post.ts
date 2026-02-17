@@ -1,0 +1,18 @@
+import { type Author } from "./author";
+
+export type Post = {
+  slug: string;
+  number?: string;
+  title: string;
+  date: string;
+  coverImage: string;
+  author: Author;
+  excerpt: string;
+  category?: string;
+  tags?: string[];
+  ogImage: {
+    url: string;
+  };
+  content: string;
+  preview?: boolean;
+};

@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import type { Variants } from "framer-motion";
 import Image from "next/image";
+import { BLUR_DATA_URL } from "@/lib/blur";
 import Link from "next/link";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useElementLines } from "@/hooks/useElementLines";
@@ -163,12 +164,14 @@ const HeroSection = () => {
               className="relative w-48 h-48 md:w-56 md:h-56 lg:w-72 lg:h-72"
             >
               {/* Image */}
-              <div className="absolute inset-0 rounded-full overflow-hidden">
+              <div className="absolute inset-0 rounded-full overflow-hidden bg-muted">
                 <Image
                   src="/william.png"
                   alt="William Armstrong"
                   fill
                   priority
+                  placeholder="blur"
+                  blurDataURL={BLUR_DATA_URL}
                   className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-[1.02]"
                 />
               </div>

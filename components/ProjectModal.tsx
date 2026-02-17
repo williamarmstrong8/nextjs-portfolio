@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
+import { BLUR_DATA_URL } from "@/lib/blur";
 import { X, ExternalLink, Github } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -200,6 +201,8 @@ const ProjectModal = ({ isOpen, onClose, project }: ProjectModalProps) => {
                       fill
                       sizes="(max-width: 1200px) 100vw, 80vw"
                       className="object-contain rounded-2xl"
+                      placeholder="blur"
+                      blurDataURL={BLUR_DATA_URL}
                       onError={(e) => { (e.target as HTMLImageElement).src = "/placeholder.svg"; }}
                     />
                   </div>
@@ -236,6 +239,8 @@ const ProjectModal = ({ isOpen, onClose, project }: ProjectModalProps) => {
                                 fill
                                 sizes="600px"
                                 className="object-contain"
+                                placeholder="blur"
+                                blurDataURL={BLUR_DATA_URL}
                                 onError={(e) => { (e.target as HTMLImageElement).src = "/placeholder.svg"; }}
                               />
                             ) : (
@@ -288,6 +293,8 @@ const ProjectModal = ({ isOpen, onClose, project }: ProjectModalProps) => {
                             fill
                             sizes="64px"
                             className="object-cover"
+                            placeholder="blur"
+                            blurDataURL={BLUR_DATA_URL}
                             onError={(e) => { (e.target as HTMLImageElement).src = "/placeholder.svg"; }}
                           />
                         ) : (

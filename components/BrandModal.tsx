@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import { BLUR_DATA_URL } from "@/lib/blur";
 
 interface Brand {
   name: string;
@@ -195,6 +196,8 @@ const BrandModal = ({ isOpen, onClose, brand }: BrandModalProps) => {
               height={48}
               className="object-contain"
               priority
+              placeholder="blur"
+              blurDataURL={BLUR_DATA_URL}
             />
             <div>
               <span className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
@@ -232,6 +235,8 @@ const BrandModal = ({ isOpen, onClose, brand }: BrandModalProps) => {
                         sizes="(max-width: 768px) 100vw, 1200px"
                         className="object-contain"
                         priority
+                        placeholder="blur"
+                        blurDataURL={BLUR_DATA_URL}
                       />
                     </div>
                   </div>
@@ -258,6 +263,8 @@ const BrandModal = ({ isOpen, onClose, brand }: BrandModalProps) => {
                                 className="object-contain"
                                 priority={index === 0}
                                 loading={index === 0 ? "eager" : "lazy"}
+                                placeholder="blur"
+                                blurDataURL={BLUR_DATA_URL}
                               />
                             </div>
                           );
@@ -315,6 +322,8 @@ const BrandModal = ({ isOpen, onClose, brand }: BrandModalProps) => {
                           sizes="64px"
                           className="object-cover"
                           loading="lazy"
+                          placeholder="blur"
+                          blurDataURL={BLUR_DATA_URL}
                         />
                       </button>
                     ))}

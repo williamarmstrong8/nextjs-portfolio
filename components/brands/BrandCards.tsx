@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { BLUR_DATA_URL } from "@/lib/blur";
 import BrandModal from "@/components/BrandModal";
 import { brands } from "@/data/brands";
 
@@ -46,13 +47,15 @@ const BrandCards = () => {
               {/* Header with logo and status */}
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center space-x-3">
-                  <div className="relative w-12 h-12 flex-shrink-0">
+                  <div className="relative w-12 h-12 flex-shrink-0 bg-muted rounded overflow-hidden">
                     <Image
                       src={brand.logo}
                       alt={`${brand.name} logo`}
                       fill
                       className="object-contain"
                       sizes="48px"
+                      placeholder="blur"
+                      blurDataURL={BLUR_DATA_URL}
                     />
                   </div>
                   <div>
