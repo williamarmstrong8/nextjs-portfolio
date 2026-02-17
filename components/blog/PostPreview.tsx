@@ -30,8 +30,8 @@ export default function PostPreview({
         href={`/blog/${slug}`}
         className="flex flex-col h-full cursor-pointer"
       >
-        {/* Image Section - full width, top of card */}
-        <div className="relative h-72 overflow-hidden flex-shrink-0 bg-muted">
+        {/* Image Section - full width, 16:9 */}
+        <div className="relative w-full aspect-video overflow-hidden flex-shrink-0 bg-muted">
           <Image
             src={coverImage}
             alt={title}

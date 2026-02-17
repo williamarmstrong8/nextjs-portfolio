@@ -185,9 +185,9 @@ const BrandModal = ({ isOpen, onClose, brand }: BrandModalProps) => {
       <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
 
       {/* Modal Content */}
-      <div className="relative bg-background border border-border rounded-3xl shadow-2xl max-w-7xl max-h-[95vh] w-full mx-4 overflow-hidden">
+      <div className="relative flex flex-col bg-background border border-border rounded-3xl shadow-2xl max-w-7xl max-h-[95vh] w-full mx-4 overflow-hidden">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-border">
+        <div className="flex-shrink-0 flex items-center justify-between p-6 border-b border-border">
           <div className="flex items-center gap-4">
             <Image
               src={brand.logo}
@@ -220,14 +220,14 @@ const BrandModal = ({ isOpen, onClose, brand }: BrandModalProps) => {
         </div>
 
         {/* Content */}
-        <div className="overflow-y-auto max-h-[calc(90vh-80px)]">
+        <div className="flex-1 min-h-0 overflow-y-auto">
           <div className="p-6 pb-12">
             {/* Media Gallery */}
             {mediaItems.length > 0 && (
               <div className="mb-8">
                 {mediaItems.length === 1 ? (
-                  <div className="flex justify-center">
-                    <div className="relative max-h-[70vh] w-full max-w-5xl aspect-[16/9] rounded-2xl overflow-hidden bg-muted">
+                  <div className="w-full">
+                    <div className="relative w-full aspect-video rounded-2xl overflow-hidden bg-muted">
                       <Image
                         src={mediaItems[0].src}
                         alt={`${brand.name} screenshot`}
@@ -242,7 +242,7 @@ const BrandModal = ({ isOpen, onClose, brand }: BrandModalProps) => {
                   </div>
                 ) : (
                   <div className="relative rounded-2xl overflow-hidden bg-muted">
-                    <div ref={containerRef} className="h-[600px] overflow-hidden">
+                    <div ref={containerRef} className="w-full aspect-video overflow-hidden">
                       <div
                         className="flex transition-transform duration-300 ease-in-out h-full"
                         style={{ transform: calculateTransform() }}
@@ -253,7 +253,7 @@ const BrandModal = ({ isOpen, onClose, brand }: BrandModalProps) => {
                             <div
                               key={index}
                               className="flex-shrink-0 relative overflow-hidden h-full"
-                              style={{ width: `${600 * ratio}px` }} // height is 600px; width derived from ratio
+                              style={{ aspectRatio: ratio }}
                             >
                               <Image
                                 src={mediaItem.src}

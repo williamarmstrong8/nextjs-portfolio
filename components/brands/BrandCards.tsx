@@ -25,7 +25,7 @@ const BrandCards = () => {
   return (
     <>
       <motion.section
-        className="grid grid-cols-1 md:grid-cols-2 gap-8"
+        className="grid grid-cols-1 lg:grid-cols-2 gap-8"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.3, delay: 0.6 }}

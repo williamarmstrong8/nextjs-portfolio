@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import CoverImage from "./CoverImage";
-import DateFormatter from "./DateFormatter";
 
 type Props = {
   title: string;
@@ -21,7 +20,7 @@ export default function PostHeader({
     <>
       {number && (
         <motion.div
-          className="flex items-baseline justify-between gap-4 mb-6"
+          className="mb-6"
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{
@@ -33,9 +32,6 @@ export default function PostHeader({
           <span className="text-5xl md:text-6xl font-bold tabular-nums text-muted-foreground/50">
             {number}
           </span>
-          <div className="text-muted-foreground">
-            <DateFormatter dateString={date} />
-          </div>
         </motion.div>
       )}
       <motion.h1

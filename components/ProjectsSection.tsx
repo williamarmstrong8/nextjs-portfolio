@@ -23,22 +23,22 @@ const ProjectsSection = () => {
           </p>
         </div>
 
-        {/* Startups Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+        {/* Startups Grid - one column until lg */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
           {featuredBrands.map((brand) => (
             <Link
               key={brand.name}
               href="/startups"
               className="block bg-card border border-border rounded-2xl overflow-hidden hover:shadow-lg transition-all duration-300 hover:scale-[1.02] group cursor-pointer"
             >
-              {/* Brand Image */}
+              {/* Brand Image - 16:9 */}
               {brand.screenshots && brand.screenshots.length > 0 ? (
-                <div className="relative h-48 overflow-hidden bg-muted">
+                <div className="relative w-full aspect-video overflow-hidden bg-muted">
                   <Image
                     src={brand.screenshots[0]}
                     alt={brand.name}
                     fill
-                    sizes="(max-width: 768px) 100vw, 33vw"
+                    sizes="(max-width: 1024px) 100vw, 33vw"
                     placeholder="blur"
                     blurDataURL={BLUR_DATA_URL}
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
@@ -50,7 +50,7 @@ const ProjectsSection = () => {
                   </div>
                 </div>
               ) : (
-                <div className="relative h-48 overflow-hidden bg-muted flex items-center justify-center p-6">
+                <div className="relative w-full aspect-video overflow-hidden bg-muted flex items-center justify-center p-6">
                   <Image
                     src={brand.logo}
                     alt={brand.name}

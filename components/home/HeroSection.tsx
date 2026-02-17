@@ -99,15 +99,9 @@ const HeroSection = () => {
         </motion.div>
       </div>
 
-      {/* Diagram Section */}
+      {/* Diagram Section - stack vertically below lg so cards don't overlap center image */}
       <div className="w-full max-w-7xl relative mx-auto">
-        <div
-          className={`flex ${
-            isMobile
-              ? "flex-col items-center gap-12"
-              : "flex-row items-center justify-between"
-          } relative z-10 md:px-0`}
-        >
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-6 relative z-10 md:px-0">
           {/* Left Node: Engineering */}
           <motion.div
             ref={leftNodeRef}
@@ -116,7 +110,7 @@ const HeroSection = () => {
             animate="visible"
             custom={0.25}
             whileHover={{ y: -6 }}
-            className="group relative flex flex-col rounded-3xl border border-border bg-card/50 backdrop-blur-sm shadow-sm hover:shadow-md transition-all duration-300 w-full md:w-[360px] lg:w-[380px] p-6"
+            className="group relative flex flex-col rounded-3xl border border-border bg-card/50 backdrop-blur-sm shadow-sm hover:shadow-md transition-all duration-300 w-full lg:w-[360px] xl:w-[380px] p-6"
           >
             <div className="absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent opacity-60" />
 
@@ -201,7 +195,7 @@ const HeroSection = () => {
             animate="visible"
             custom={0.4}
             whileHover={{ y: -6 }}
-            className="group relative flex flex-col rounded-3xl border border-border bg-card/50 backdrop-blur-sm shadow-sm hover:shadow-md transition-all duration-300 w-full md:w-[360px] lg:w-[380px] p-6 text-right items-end"
+            className="group relative flex flex-col rounded-3xl border border-border bg-card/50 backdrop-blur-sm shadow-sm hover:shadow-md transition-all duration-300 w-full lg:w-[360px] xl:w-[380px] p-6 text-right items-end"
           >
             <div className="absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent opacity-60" />
 
@@ -241,10 +235,10 @@ const HeroSection = () => {
           </motion.div>
         </div>
 
-        {/* SVG Animated Lines - Desktop Only */}
-        {!isMobile && isValid && (
+        {/* SVG Animated Lines - only when side-by-side (lg and up) */}
+        {isValid && (
           <svg
-            className="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-visible"
+            className="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-visible hidden lg:block"
             aria-hidden="true"
           >
             <motion.path

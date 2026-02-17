@@ -38,11 +38,10 @@ const ProjectGridCard = ({
         className
       )}
     >
-      {/* Image Section */}
+      {/* Image Section - 16:9 */}
       {image && (
         <div className={cn(
-          "relative overflow-hidden",
-          size === "compact" ? "h-32" : "h-72"
+          "relative w-full overflow-hidden aspect-video"
         )}>
           {/* Loading placeholder */}
           {!imageLoaded && !imageError && (

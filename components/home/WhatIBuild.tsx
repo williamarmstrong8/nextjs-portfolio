@@ -76,9 +76,9 @@ const WhatIBuild = () => {
       className={`bg-background py-16 ${isMobile ? "px-6" : "px-20"}`}
     >
       <div className="max-w-7xl mx-auto">
-        {/* First Row - 3 Cards */}
+        {/* First Row - 3 Cards (one column until lg) */}
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-12 md:mb-16"
+          className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 mb-12 lg:mb-16"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
@@ -122,9 +122,9 @@ const WhatIBuild = () => {
           ))}
         </motion.div>
 
-        {/* Second Row - 2 Cards (2/3 and 1/3) */}
+        {/* Second Row - 2 Cards (2/3 and 1/3, one column until lg) */}
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8"
+          className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
@@ -134,7 +134,7 @@ const WhatIBuild = () => {
             <motion.div
               key={index + 3}
               className={`group ${
-                capability.size === "large" ? "md:col-span-2" : "md:col-span-1"
+                capability.size === "large" ? "lg:col-span-2" : "lg:col-span-1"
               }`}
               variants={cardVariants}
               whileHover="hover"

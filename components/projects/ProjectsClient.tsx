@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import ProjectGridCard from "@/components/ProjectCard";
 import ProjectFilter from "@/components/ProjectFilter";
@@ -31,6 +31,10 @@ const ProjectsClient = ({ projects }: ProjectsClientProps) => {
   const isMobile = useIsMobile();
   const [activeFilter, setActiveFilter] = useState("All");
   const [selectedProject, setSelectedProject] = useState<number | null>(null);
+  const isInitialMount = useRef(true);
+  useEffect(() => {
+    isInitialMount.current = false;
+  }, []);
 
   const filteredProjects = activeFilter === "All"
     ? projects
@@ -93,42 +97,49 @@ const ProjectsClient = ({ projects }: ProjectsClientProps) => {
           />
         </motion.section>
 
-        {/* Projects Grid - same pattern as Startups: section then cards animate in order */}
-        <motion.section
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-8"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.3, delay: 0.6 }}
-        >
-          {filteredProjects.map((project, index) => (
-            <motion.div
-              key={project.id}
-              initial={{ opacity: 0, y: 40, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{
-                duration: 0.6,
-                delay: 0.7 + index * 0.15,
-                ease: [0.25, 0.46, 0.45, 0.94],
-              }}
-              whileHover={{
-                y: -8,
-                transition: { duration: 0.3 },
-              }}
+        {/* Projects Grid - animate out all cards on filter change, then new set animates in */}
+        <AnimatePresence mode="wait">
+          {filteredProjects.length > 0 ? (
+            <motion.section
+              key={activeFilter}
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-8"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.25 }}
             >
-              <ProjectGridCard
-                title={project.title}
-                category={project.category}
-                description={project.description}
-                date={project.date}
-                image={
-                  project.thumbnail ||
-                  (project.images && project.images.length > 0 ? project.images[0] : undefined)
-                }
-                onClick={() => handleProjectClick(project.id)}
-              />
-            </motion.div>
-          ))}
-        </motion.section>
+              {filteredProjects.map((project, index) => (
+                <motion.div
+                  key={project.id}
+                  initial={{ opacity: 0, y: 40, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -12, scale: 0.98, transition: { duration: 0.2 } }}
+                  transition={{
+                    duration: 0.6,
+                    delay: isInitialMount.current ? 0.7 + index * 0.15 : 0.2 + index * 0.08,
+                    ease: [0.25, 0.46, 0.45, 0.94],
+                  }}
+                  whileHover={{
+                    y: -8,
+                    transition: { duration: 0.3 },
+                  }}
+                >
+                  <ProjectGridCard
+                    title={project.title}
+                    category={project.category}
+                    description={project.description}
+                    date={project.date}
+                    image={
+                      project.thumbnail ||
+                      (project.images && project.images.length > 0 ? project.images[0] : undefined)
+                    }
+                    onClick={() => handleProjectClick(project.id)}
+                  />
+                </motion.div>
+              ))}
+            </motion.section>
+          ) : null}
+        </AnimatePresence>
 
         {/* Empty State */}
         <AnimatePresence>

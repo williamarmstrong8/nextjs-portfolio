@@ -167,8 +167,8 @@ const ProjectModal = ({ isOpen, onClose, project }: ProjectModalProps) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
-      <div className="relative bg-background border border-border rounded-3xl shadow-2xl max-w-7xl max-h-[95vh] w-full mx-4 overflow-hidden">
-        <div className="flex items-center justify-between p-6 border-b border-border">
+      <div className="relative flex flex-col bg-background border border-border rounded-3xl shadow-2xl max-w-7xl max-h-[95vh] w-full mx-4 overflow-hidden">
+        <div className="flex-shrink-0 flex items-center justify-between p-6 border-b border-border">
           <div>
             <span className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
               {project.category}
@@ -181,8 +181,8 @@ const ProjectModal = ({ isOpen, onClose, project }: ProjectModalProps) => {
           </button>
         </div>
 
-        <div className="overflow-y-auto max-h-[calc(90vh-80px)]">
-          <div className="p-6">
+        <div className="flex-1 min-h-0 overflow-y-auto">
+          <div className="p-6 pb-12">
             {mediaItems.length > 0 && (
               <div className="mb-8">
                 {mediaAspectRatios.length !== mediaItems.length ? (
@@ -191,10 +191,7 @@ const ProjectModal = ({ isOpen, onClose, project }: ProjectModalProps) => {
                     style={{ aspectRatio: "16/9" }}
                   />
                 ) : mediaItems.length === 1 && mediaItems[0].type === 'image' ? (
-                  <div
-                    className="relative w-full max-h-[70vh] mx-auto rounded-2xl overflow-hidden"
-                    style={{ aspectRatio: `${mediaAspectRatios[0]}` }}
-                  >
+                  <div className="relative w-full aspect-video max-h-[70vh] mx-auto rounded-2xl overflow-hidden">
                     <Image
                       src={mediaItems[0].src}
                       alt={`${project.title} screenshot`}
@@ -207,21 +204,16 @@ const ProjectModal = ({ isOpen, onClose, project }: ProjectModalProps) => {
                     />
                   </div>
                 ) : mediaItems.length === 1 && mediaItems[0].type === 'video' ? (
-                  <div className="flex justify-center w-full max-h-[70vh] rounded-2xl overflow-hidden bg-muted">
-                    <div
-                      className="relative flex items-center justify-center rounded-2xl overflow-hidden"
-                      style={{ aspectRatio: `${mediaAspectRatios[0]}`, maxHeight: "70vh" }}
-                    >
-                      <video
-                        src={mediaItems[0].src}
-                        className="max-h-[70vh] w-auto object-contain rounded-2xl"
-                        controls
-                      />
-                    </div>
+                  <div className="relative w-full aspect-video max-h-[70vh] rounded-2xl overflow-hidden bg-black">
+                    <video
+                      src={mediaItems[0].src}
+                      className="w-full h-full object-contain rounded-2xl"
+                      controls
+                    />
                   </div>
                 ) : (
                   <div className="relative rounded-2xl overflow-hidden bg-muted">
-                    <div ref={containerRef} className="h-[600px] overflow-hidden">
+                    <div ref={containerRef} className="w-full aspect-video overflow-hidden">
                       <div
                         className="flex transition-transform duration-300 ease-in-out h-full"
                         style={{ transform: calculateTransform() }}
@@ -230,7 +222,7 @@ const ProjectModal = ({ isOpen, onClose, project }: ProjectModalProps) => {
                           <div
                             key={index}
                             className="flex-shrink-0 relative overflow-hidden h-full"
-                            style={{ width: 600 * mediaAspectRatios[index] }}
+                            style={{ aspectRatio: mediaAspectRatios[index] }}
                           >
                             {mediaItem.type === 'image' ? (
                               <Image
