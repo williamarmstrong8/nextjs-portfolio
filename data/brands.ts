@@ -96,9 +96,12 @@ export const brands: Brand[] = [
     longDescription: "HappyMile emerged from the need for accessible, social running communities in San Francisco. By combining fitness with community building, the club created a viral movement that attracted over 100 weekly participants and secured major brand partnerships including Nike. The club's success demonstrates the power of combining passion projects with strategic business development.",
     frameworks: ["Social media marketing", "Google Maps", "Strava Integration", "Mailchimp"],
     screenshots: [
-      "/brands/happy-mile/me.jpeg",
-      "/brands/happy-mile/2BC3E075-F7BF-4177-A916-514E63D772A6_1_102_o.jpeg",
-      "/brands/happy-mile/group.jpeg"
+      "/brands/happy-mile/gathering.jpeg",
+      "/brands/happy-mile/merch.jpeg",
+      "/brands/happy-mile/pickle-ball.jpeg",
+      "/brands/happy-mile/more-runners-2.jpeg",
+      "/brands/happy-mile/runners-more.jpeg",
+      "/brands/happy-mile/runner-brdige.jpeg"
     ],
     accomplishments: [
       "100+ weekly active runners",
@@ -129,8 +132,11 @@ export const brands: Brand[] = [
     longDescription: "Destination Drifters was born from my freshman year experience and the lack of outdoor inspiration content. Starting as a personal blog and Instagram account, it evolved into a full brand with merchandise sales and campus-wide recognition. The brand successfully monetized through merchandise and built a community of outdoor enthusiasts.",
     frameworks: ["React", "Instagram Business", "Adobe Suite"],
     screenshots: [
+      "/brands/drifters/hero.png",
       "/brands/drifters/3-shot.jpeg",
+      "/brands/drifters/instagram.jpg",
       "/brands/drifters/ever-to-explore.jpeg",
+      "/brands/drifters/journal.png",
       "/brands/drifters/mary-claire.jpeg"
     ],
     accomplishments: [
