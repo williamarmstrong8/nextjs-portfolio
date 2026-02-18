@@ -22,10 +22,10 @@ const ProjectsSection = () => {
         {/* Section Header */}
         <motion.div
           className="text-center mb-12"
-          initial={shouldReduceMotion ? false : { opacity: 0, y: 24 }}
-          whileInView={shouldReduceMotion ? false : { opacity: 1, y: 0 }}
+          initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-40px" }}
-          transition={{ duration: 0.6, ease, delay: 0.1 }}
+          transition={{ duration: shouldReduceMotion ? 0 : 0.6, ease, delay: shouldReduceMotion ? 0 : 0.1 }}
         >
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
             Featured Startups
@@ -40,13 +40,13 @@ const ProjectsSection = () => {
           {featuredBrands.map((brand, index) => (
             <motion.div
               key={brand.name}
-              initial={shouldReduceMotion ? false : { opacity: 0, y: 24, scale: 0.98 }}
-              whileInView={shouldReduceMotion ? false : { opacity: 1, y: 0, scale: 1 }}
+              initial={shouldReduceMotion ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 24, scale: 0.98 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
               viewport={{ once: true, margin: "-20px" }}
               transition={{
-                duration: 0.5,
+                duration: shouldReduceMotion ? 0 : 0.5,
                 ease,
-                delay: 0.2 + index * 0.1,
+                delay: shouldReduceMotion ? 0 : 0.2 + index * 0.1,
               }}
               whileHover={shouldReduceMotion ? undefined : { y: -6, transition: { duration: 0.2 } }}
             >
@@ -127,10 +127,10 @@ const ProjectsSection = () => {
         {/* CTA */}
         <motion.div
           className="text-center"
-          initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
-          whileInView={shouldReduceMotion ? false : { opacity: 1, y: 0 }}
+          initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-20px" }}
-          transition={{ duration: 0.5, ease, delay: 0.5 }}
+          transition={{ duration: shouldReduceMotion ? 0 : 0.5, ease, delay: shouldReduceMotion ? 0 : 0.5 }}
         >
           <Link
             href="/startups"
