@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import { BLUR_DATA_URL } from "@/lib/blur";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface Brand {
   name: string;
@@ -29,7 +29,16 @@ interface BrandModalProps {
 const BrandModal = ({ isOpen, onClose, brand }: BrandModalProps) => {
   const [currentMediaIndex, setCurrentMediaIndex] = useState(0);
   const [mediaAspectRatios, setMediaAspectRatios] = useState<number[]>([]);
+  const [loadedMediaIndices, setLoadedMediaIndices] = useState<Set<number>>(new Set());
+  const [loadedThumbIndices, setLoadedThumbIndices] = useState<Set<number>>(new Set());
   const containerRef = useRef<HTMLDivElement>(null);
+
+  const onMediaLoad = useCallback((index: number) => {
+    setLoadedMediaIndices((prev) => new Set(prev).add(index));
+  }, []);
+  const onThumbLoad = useCallback((index: number) => {
+    setLoadedThumbIndices((prev) => new Set(prev).add(index));
+  }, []);
 
   // Same mental model as Projects modal (variable widths based on aspect ratio)
   const mediaItems = useMemo(
@@ -58,34 +67,15 @@ const BrandModal = ({ isOpen, onClose, brand }: BrandModalProps) => {
     return () => document.removeEventListener("keydown", handleEscape);
   }, [isOpen, onClose]);
 
-  // ✅ Preload first 2 images when modal opens
+  // Reset loaded state when modal or brand changes
   useEffect(() => {
-    if (!isOpen || !brand?.screenshots?.length) return;
-
-    const toPreload = brand.screenshots.slice(0, 2);
-    const links: HTMLLinkElement[] = [];
-
-    toPreload.forEach((src) => {
-      const link = document.createElement("link");
-      link.rel = "preload";
-      link.as = "image";
-      link.href = src;
-      document.head.appendChild(link);
-      links.push(link);
-    });
-
-    return () => {
-      links.forEach((l) => {
-        try {
-          document.head.removeChild(l);
-        } catch {
-          // ignore
-        }
-      });
-    };
+    if (isOpen && brand) {
+      setLoadedMediaIndices(new Set());
+      setLoadedThumbIndices(new Set());
+    }
   }, [isOpen, brand]);
 
-  // ✅ Match Projects modal: measure aspect ratios so vertical + horizontal sit correctly
+  // Measure aspect ratios when modal opens (skeleton shown until done)
   useEffect(() => {
     if (!isOpen) return;
 
@@ -94,9 +84,7 @@ const BrandModal = ({ isOpen, onClose, brand }: BrandModalProps) => {
       return;
     }
 
-    // Set instant fallbacks to avoid initial "jump"
-    setMediaAspectRatios(mediaItems.map(() => 4 / 3));
-
+    setMediaAspectRatios([]);
     let cancelled = false;
 
     const loadAspectRatios = async () => {
@@ -195,9 +183,7 @@ const BrandModal = ({ isOpen, onClose, brand }: BrandModalProps) => {
               width={48}
               height={48}
               className="object-contain"
-              priority
-              placeholder="blur"
-              blurDataURL={BLUR_DATA_URL}
+              loading="lazy"
             />
             <div>
               <span className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
@@ -225,18 +211,26 @@ const BrandModal = ({ isOpen, onClose, brand }: BrandModalProps) => {
             {/* Media Gallery */}
             {mediaItems.length > 0 && (
               <div className="mb-8">
-                {mediaItems.length === 1 ? (
+                {mediaAspectRatios.length !== mediaItems.length ? (
+                  <Skeleton
+                    className="w-full rounded-2xl"
+                    style={{ aspectRatio: "16/9" }}
+                  />
+                ) : mediaItems.length === 1 ? (
                   <div className="w-full">
                     <div className="relative w-full aspect-video rounded-2xl overflow-hidden bg-muted">
+                      {!loadedMediaIndices.has(0) && (
+                        <Skeleton className="absolute inset-0 rounded-2xl" />
+                      )}
                       <Image
                         src={mediaItems[0].src}
                         alt={`${brand.name} screenshot`}
                         fill
                         sizes="(max-width: 768px) 100vw, 1200px"
-                        className="object-contain"
-                        priority
-                        placeholder="blur"
-                        blurDataURL={BLUR_DATA_URL}
+                        className={cn("object-contain transition-opacity duration-200", loadedMediaIndices.has(0) ? "opacity-100" : "opacity-0")}
+                        loading="lazy"
+                        onLoad={() => onMediaLoad(0)}
+                        onError={() => onMediaLoad(0)}
                       />
                     </div>
                   </div>
@@ -252,19 +246,21 @@ const BrandModal = ({ isOpen, onClose, brand }: BrandModalProps) => {
                           return (
                             <div
                               key={index}
-                              className="flex-shrink-0 relative overflow-hidden h-full"
+                              className="flex-shrink-0 relative overflow-hidden h-full bg-muted"
                               style={{ aspectRatio: ratio }}
                             >
+                              {!loadedMediaIndices.has(index) && (
+                                <Skeleton className="absolute inset-0" />
+                              )}
                               <Image
                                 src={mediaItem.src}
                                 alt={`${brand.name} - Screenshot ${index + 1}`}
                                 fill
                                 sizes="(max-width: 768px) 100vw, 1200px"
-                                className="object-contain"
-                                priority={index === 0}
-                                loading={index === 0 ? "eager" : "lazy"}
-                                placeholder="blur"
-                                blurDataURL={BLUR_DATA_URL}
+                                className={cn("object-contain transition-opacity duration-200", loadedMediaIndices.has(index) ? "opacity-100" : "opacity-0")}
+                                loading="lazy"
+                                onLoad={() => onMediaLoad(index)}
+                                onError={() => onMediaLoad(index)}
                               />
                             </div>
                           );
@@ -302,7 +298,7 @@ const BrandModal = ({ isOpen, onClose, brand }: BrandModalProps) => {
                 )}
 
                 {/* Thumbnails */}
-                {mediaItems.length > 1 && (
+                {mediaItems.length > 1 && mediaAspectRatios.length === mediaItems.length && (
                   <div className="flex gap-2 mt-4 overflow-x-auto">
                     {mediaItems.map((mediaItem, index) => (
                       <button
@@ -315,15 +311,18 @@ const BrandModal = ({ isOpen, onClose, brand }: BrandModalProps) => {
                             : "border-border hover:border-muted-foreground"
                         )}
                       >
+                        {!loadedThumbIndices.has(index) && (
+                          <Skeleton className="absolute inset-0 rounded-lg" />
+                        )}
                         <Image
                           src={mediaItem.src}
                           alt={`Thumbnail ${index + 1}`}
                           fill
                           sizes="64px"
-                          className="object-cover"
+                          className={cn("object-cover transition-opacity duration-200", loadedThumbIndices.has(index) ? "opacity-100" : "opacity-0")}
                           loading="lazy"
-                          placeholder="blur"
-                          blurDataURL={BLUR_DATA_URL}
+                          onLoad={() => onThumbLoad(index)}
+                          onError={() => onThumbLoad(index)}
                         />
                       </button>
                     ))}

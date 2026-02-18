@@ -1,12 +1,12 @@
 "use client";
 
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
-import { BLUR_DATA_URL } from "@/lib/blur";
 import { X, ExternalLink, Github } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface Project {
   id: number;
@@ -33,7 +33,16 @@ interface ProjectModalProps {
 const ProjectModal = ({ isOpen, onClose, project }: ProjectModalProps) => {
   const [currentMediaIndex, setCurrentMediaIndex] = useState(0);
   const [mediaAspectRatios, setMediaAspectRatios] = useState<number[]>([]);
+  const [loadedMediaIndices, setLoadedMediaIndices] = useState<Set<number>>(new Set());
+  const [loadedThumbIndices, setLoadedThumbIndices] = useState<Set<number>>(new Set());
   const containerRef = useRef<HTMLDivElement>(null);
+
+  const onMediaLoad = useCallback((index: number) => {
+    setLoadedMediaIndices((prev) => new Set(prev).add(index));
+  }, []);
+  const onThumbLoad = useCallback((index: number) => {
+    setLoadedThumbIndices((prev) => new Set(prev).add(index));
+  }, []);
 
   const mediaItems = useMemo(
     () => [
@@ -56,9 +65,13 @@ const ProjectModal = ({ isOpen, onClose, project }: ProjectModalProps) => {
     }
   }, [isOpen]);
 
-  // Reset aspect ratios when modal opens or project changes so we show skeleton until dimensions load (avoids layout shift)
+  // Reset aspect ratios and loaded state when modal opens or project changes
   useEffect(() => {
-    if (isOpen && project) setMediaAspectRatios([]);
+    if (isOpen && project) {
+      setMediaAspectRatios([]);
+      setLoadedMediaIndices(new Set());
+      setLoadedThumbIndices(new Set());
+    }
   }, [isOpen, project]);
 
   useEffect(() => {
@@ -189,21 +202,24 @@ const ProjectModal = ({ isOpen, onClose, project }: ProjectModalProps) => {
             {mediaItems.length > 0 && (
               <div className="mb-8">
                 {mediaAspectRatios.length !== mediaItems.length ? (
-                  <div
-                    className="w-full max-h-[70vh] rounded-2xl overflow-hidden bg-muted animate-pulse"
+                  <Skeleton
+                    className="w-full max-h-[70vh] rounded-2xl"
                     style={{ aspectRatio: "16/9" }}
                   />
                 ) : mediaItems.length === 1 && mediaItems[0].type === 'image' ? (
-                  <div className="relative w-full aspect-video max-h-[70vh] mx-auto rounded-2xl overflow-hidden">
+                  <div className="relative w-full aspect-video max-h-[70vh] mx-auto rounded-2xl overflow-hidden bg-muted">
+                    {!loadedMediaIndices.has(0) && (
+                      <Skeleton className="absolute inset-0 rounded-2xl" />
+                    )}
                     <Image
                       src={mediaItems[0].src}
                       alt={`${project.title} screenshot`}
                       fill
                       sizes="(max-width: 1200px) 100vw, 80vw"
-                      className="object-contain rounded-2xl"
-                      placeholder="blur"
-                      blurDataURL={BLUR_DATA_URL}
-                      onError={(e) => { (e.target as HTMLImageElement).src = "/placeholder.svg"; }}
+                      className={cn("object-contain rounded-2xl transition-opacity duration-200", loadedMediaIndices.has(0) ? "opacity-100" : "opacity-0")}
+                      loading="lazy"
+                      onLoad={() => onMediaLoad(0)}
+                      onError={() => onMediaLoad(0)}
                     />
                   </div>
                 ) : mediaItems.length === 1 && mediaItems[0].type === 'video' ? (
@@ -224,20 +240,25 @@ const ProjectModal = ({ isOpen, onClose, project }: ProjectModalProps) => {
                         {mediaItems.map((mediaItem, index) => (
                           <div
                             key={index}
-                            className="flex-shrink-0 relative overflow-hidden h-full"
+                            className="flex-shrink-0 relative overflow-hidden h-full bg-muted"
                             style={{ aspectRatio: mediaAspectRatios[index] }}
                           >
                             {mediaItem.type === 'image' ? (
-                              <Image
-                                src={mediaItem.src}
-                                alt={`${project.title} - Screenshot ${index + 1}`}
-                                fill
-                                sizes="600px"
-                                className="object-contain"
-                                placeholder="blur"
-                                blurDataURL={BLUR_DATA_URL}
-                                onError={(e) => { (e.target as HTMLImageElement).src = "/placeholder.svg"; }}
-                              />
+                              <>
+                                {!loadedMediaIndices.has(index) && (
+                                  <Skeleton className="absolute inset-0" />
+                                )}
+                                <Image
+                                  src={mediaItem.src}
+                                  alt={`${project.title} - Screenshot ${index + 1}`}
+                                  fill
+                                  sizes="600px"
+                                  className={cn("object-contain transition-opacity duration-200", loadedMediaIndices.has(index) ? "opacity-100" : "opacity-0")}
+                                  loading="lazy"
+                                  onLoad={() => onMediaLoad(index)}
+                                  onError={() => onMediaLoad(index)}
+                                />
+                              </>
                             ) : (
                               <video
                                 src={mediaItem.src}
@@ -282,16 +303,21 @@ const ProjectModal = ({ isOpen, onClose, project }: ProjectModalProps) => {
                         )}
                       >
                         {mediaItem.type === 'image' ? (
-                          <Image
-                            src={mediaItem.src}
-                            alt={`Thumbnail ${index + 1}`}
-                            fill
-                            sizes="64px"
-                            className="object-cover"
-                            placeholder="blur"
-                            blurDataURL={BLUR_DATA_URL}
-                            onError={(e) => { (e.target as HTMLImageElement).src = "/placeholder.svg"; }}
-                          />
+                          <>
+                            {!loadedThumbIndices.has(index) && (
+                              <Skeleton className="absolute inset-0 rounded-lg" />
+                            )}
+                            <Image
+                              src={mediaItem.src}
+                              alt={`Thumbnail ${index + 1}`}
+                              fill
+                              sizes="64px"
+                              className={cn("object-cover transition-opacity duration-200", loadedThumbIndices.has(index) ? "opacity-100" : "opacity-0")}
+                              loading="lazy"
+                              onLoad={() => onThumbLoad(index)}
+                              onError={() => onThumbLoad(index)}
+                            />
+                          </>
                         ) : (
                           <div className="w-full h-full bg-muted relative">
                             <video
