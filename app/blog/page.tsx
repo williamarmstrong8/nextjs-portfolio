@@ -6,35 +6,7 @@ export const metadata: Metadata = {
   title: "Blog | William Armstrong - Product Engineer & Entrepreneur",
   description:
     "Insights on human-centered design, product engineering, and building innovative solutions. Read William Armstrong's thoughts on startups, Next.js, and modern web development.",
-  keywords: [
-    "William Armstrong",
-    "Blog",
-    "Product Engineering",
-    "Human-Centered Design",
-    "Next.js",
-    "Startups",
-    "Web Development",
-  ],
-  authors: [{ name: "William Armstrong" }],
-  metadataBase: new URL("https://williamarmstrong.dev"),
-  alternates: {
-    canonical: "/blog",
-  },
-  openGraph: {
-    title: "Blog | William Armstrong - Product Engineer & Entrepreneur",
-    description:
-      "Insights on human-centered design, product engineering, and building innovative solutions.",
-    url: "https://williamarmstrong.dev/blog",
-    siteName: "William Armstrong Portfolio",
-    locale: "en_US",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Blog | William Armstrong",
-    description: "Insights on product engineering and human-centered design.",
-    creator: "@williamarmstrong",
-  },
+  alternates: { canonical: "/blog" },
 };
 
 export default function BlogPage() {

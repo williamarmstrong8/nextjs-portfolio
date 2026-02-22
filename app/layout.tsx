@@ -9,74 +9,40 @@ import Footer from "@/components/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
-// Canonical base URL so og:image is always an absolute URL that works when shared (Vercel sets VERCEL_URL)
 const baseUrl =
   process.env.VERCEL_URL != null
     ? `https://${process.env.VERCEL_URL}`
-    : process.env.NEXT_PUBLIC_SITE_URL ?? "https://williamarmstrong.vercel.app";
-const ogImageUrl = `${baseUrl}/william-armstrong-og.png`;
+    : process.env.NEXT_PUBLIC_SITE_URL ?? "https://williamarmstrong.dev";
 
 export const metadata: Metadata = {
   title: "William Armstrong - Product Engineer & Entrepreneur",
-  description: "Portfolio of William Armstrong: Product Engineer specializing in human-centered design, entrepreneur, and creative professional building innovative solutions.",
-  keywords: ["William Armstrong", "Product Engineer", "Human-Centered Design", "Entrepreneur", "Portfolio"],
-  authors: [{ name: "William Armstrong" }],
-  creator: "William Armstrong",
-  publisher: "William Armstrong",
-  formatDetection: {
-    email: false,
-    address: false,
-    telephone: false,
-  },
+  description:
+    "Portfolio of William Armstrong: Product Engineer specializing in human-centered design, entrepreneur, and creative professional building innovative solutions.",
   metadataBase: new URL(baseUrl),
-  manifest: '/manifest.json',
+  manifest: "/manifest.json",
   icons: {
-    icon: '/fav1.jpg',
-    shortcut: '/fav1.jpg',
-    apple: '/fav1.jpg',
-  },
-  appleWebApp: {
-    capable: true,
-    statusBarStyle: 'default',
-    title: 'William Armstrong',
+    icon: "/fav1.jpg",
+    shortcut: "/fav1.jpg",
+    apple: "/fav1.jpg",
   },
   openGraph: {
     title: "William Armstrong - Product Engineer & Entrepreneur",
-    description: "Portfolio of William Armstrong: Product Engineer specializing in human-centered design, entrepreneur, and creative professional.",
-    url: baseUrl,
+    description:
+      "Portfolio of William Armstrong: Product Engineer specializing in human-centered design, entrepreneur, and creative professional.",
     siteName: "William Armstrong Portfolio",
     locale: "en_US",
     type: "website",
-    images: [
-      {
-        url: ogImageUrl,
-        width: 1200,
-        height: 630,
-        alt: "William Armstrong - Product Engineer & Entrepreneur",
-      },
-    ],
+    images: [{ url: "/fav1.jpg", width: 1200, height: 630, alt: "William Armstrong" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "William Armstrong - Product Engineer & Entrepreneur",
-    description: "Portfolio of William Armstrong: Product Engineer specializing in human-centered design and innovative solutions.",
+    description:
+      "Portfolio of William Armstrong: Product Engineer specializing in human-centered design and innovative solutions.",
     creator: "@williamarmstrong",
-    images: [ogImageUrl],
+    images: ["/fav1.jpg"],
   },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
-  },
-  verification: {
-    google: 'your-google-site-verification-code',
-  },
+  robots: { index: true, follow: true },
 };
 
 export default function RootLayout({

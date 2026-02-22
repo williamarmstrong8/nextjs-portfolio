@@ -46,39 +46,29 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   const title = `${post.title} | William Armstrong`;
-  const description = post.excerpt;
-  const imageUrl = post.ogImage?.url || post.coverImage;
+  const description = post.excerpt ?? undefined;
+  const imageUrl = post.coverImage || post.ogImage?.url;
 
   return {
     title,
     description,
-    authors: [{ name: post.author.name }],
-    metadataBase: new URL("https://williamarmstrong.dev"),
+    alternates: { canonical: `/blog/${post.slug}` },
     openGraph: {
       title,
       description,
-      url: `https://williamarmstrong.dev/blog/${post.slug}`,
-      siteName: "William Armstrong Portfolio",
       type: "article",
       publishedTime: post.date,
       authors: [post.author.name],
-      images: imageUrl
-        ? [
-            {
-              url: imageUrl,
-              width: 1200,
-              height: 630,
-              alt: post.title,
-            },
-          ]
-        : [],
+      ...(imageUrl && {
+        images: [{ url: imageUrl, width: 1200, height: 630, alt: post.title }],
+      }),
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
       creator: "@williamarmstrong",
-      images: imageUrl ? [imageUrl] : [],
+      ...(imageUrl && { images: [imageUrl] }),
     },
   };
 }

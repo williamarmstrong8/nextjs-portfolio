@@ -3,61 +3,9 @@ import PhotographyClient from "@/components/photography/PhotographyClient";
 
 export const metadata: Metadata = {
   title: "Photography Portfolio - William Armstrong | Landscapes, Events & Creative Shots",
-  description: "Explore William Armstrong's photography portfolio: Boston College landscapes, 5K Run & Roll events, graduation ceremonies, and creative moments captured with passion and artistic vision.",
-  keywords: [
-    "William Armstrong",
-    "Photography Portfolio",
-    "Landscape Photography",
-    "Event Photography",
-    "Boston College",
-    "5K Run & Roll",
-    "Graduation Photography",
-    "Creative Photography",
-    "Sports Photography",
-    "Nature Photography"
-  ],
-  authors: [{ name: "William Armstrong" }],
-  creator: "William Armstrong",
-  publisher: "William Armstrong",
-  metadataBase: new URL('https://williamarmstrong.dev'),
-  alternates: {
-    canonical: '/photography',
-  },
-  openGraph: {
-    title: "Photography Portfolio - William Armstrong | Creative Visual Storytelling",
-    description: "William Armstrong's photography portfolio featuring Boston College landscapes, running events, graduation ceremonies, and artistic captures.",
-    url: "https://williamarmstrong.dev/photography",
-    siteName: "William Armstrong Portfolio",
-    locale: "en_US",
-    type: "website",
-    images: [
-      {
-        url: "/william-armstrong-og.png",
-        width: 1200,
-        height: 630,
-        alt: "William Armstrong Photography Portfolio - Landscapes and Events",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Photography Portfolio - William Armstrong",
-    description: "Landscape, event, and creative photography by William Armstrong. Boston College scenes, running events, and artistic captures.",
-    creator: "@williamarmstrong",
-    images: ["/william-armstrong-og.png"],
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
-  },
-  category: "Photography",
+  description:
+    "Explore William Armstrong's photography portfolio: Boston College landscapes, 5K Run & Roll events, graduation ceremonies, and creative moments captured with passion and artistic vision.",
+  alternates: { canonical: "/photography" },
 };
 
 const IMAGES = [
