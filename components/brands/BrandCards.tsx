@@ -47,7 +47,7 @@ const BrandCards = () => {
               {/* Header with logo and status */}
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center space-x-3">
-                  <div className="relative w-12 h-12 flex-shrink-0 bg-muted rounded overflow-hidden">
+                  <div className="relative w-12 h-12 flex-shrink-0 rounded overflow-hidden">
                     <Image
                       src={brand.logo}
                       alt={`${brand.name} logo`}

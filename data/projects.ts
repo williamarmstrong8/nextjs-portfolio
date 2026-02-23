@@ -16,18 +16,43 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    id: 18,
+    title: "Armstrong Academy",
+    category: "Product",
+    date: "2025",
+    thumbnail: "/projects/armstrong-academy/armstrong-academy-bento.jpg",
+    images: [
+      "/projects/armstrong-academy/armstrong-academy-bento.jpg",
+      "/projects/armstrong-academy/home.png",
+      "/projects/armstrong-academy/marketplace.png",
+      "/projects/armstrong-academy/blog.png"
+    ],
+    description: "A teaching platform for AI native builders. Free courses, real projects, prompt driven development, and an open source CLI to ship Next.js apps without the boring setup.",
+    longDescription: "Armstrong Academy is a teaching platform I built for builders who want to learn prompt driven development and ship real apps fast. The foundation is built for the Vercel ecosystem: Next.js 16, TypeScript, Tailwind, and Framer. The platform bridges design and engineering with pixel perfect interfaces that ship faster and rank higher. An open source CLI (npx @william/ui create) lets you install templates directly into your codebase and skip manual copying. The curriculum is completely free and project based: Module 01 covers a scalable Next.js + shadcn architecture in under 5 minutes; Module 02 adds database integration and auth; Module 03 covers forms that save to the database; Module 04 teaches building a blog with Markdown and dynamic routes. There is also a marketplace of production ready components. The goal is to help builders learn to ship beautiful software without getting bogged down in theory. Describe what you want in plain language and get a real app.",
+    technologies: ["Next.js 16", "TypeScript", "Tailwind", "Framer Motion", "Vercel", "Open Source CLI", "Markdown", "shadcn"],
+    features: [
+      "Free project based curriculum for AI native builders",
+      "Open source CLI for instant template setup (npx @william/ui create)",
+      "Modules: 5 Step Foundation, Database Integration, Forms, Blog with Markdown",
+      "Modern stack: Next.js 16, TypeScript, Tailwind, Framer",
+      "Marketplace of production ready components",
+      "Bridges design and engineering with Core Web Vitals focus",
+      "No config or boilerplate. Describe and ship"
+    ],
+    link: "https://armstrong-academy.vercel.app/"
+  },
+  {
     id: 12,
     title: "AI Blog Generator",
     category: "Product",
     date: "November 2025",
     description: "AI-powered blog generation tool using OpenAI API to automate SEO-optimized content creation for companies and brands, featuring custom firm profiles and bulk generation capabilities.",
     longDescription: "I developed an AI blog generator that automates content creation for companies and brands to increase their SEO presence. The tool integrates with OpenAI's API to generate high-quality, SEO-optimized blog content tailored to each company's specific goals, identity, and market positioning. The system features sophisticated prompt engineering and custom firm profile creation, allowing for personalized content generation that aligns with each brand's unique voice and objectives. The platform supports both single blog post creation and parallel bulk generation, making it scalable for content marketing teams. Each generated blog is trained on SEO best practices and the specific market context of the target company, ensuring content that not only engages readers but also performs well in search rankings. The tool outputs MDX files that can be directly integrated into company websites, streamlining the content publishing workflow from generation to deployment.",
-    thumbnail: "/projects/AI Blog Generator/articles.png",
+    thumbnail: "/projects/AI Blog Generator/blog-generator-ui.jpg",
     images: [
-      "/projects/AI Blog Generator/articles.png",
-      "/projects/AI Blog Generator/home.png",
-      "/projects/AI Blog Generator/history.png",
-      "/projects/AI Blog Generator/article.png"
+      "/projects/AI Blog Generator/blog-generator-ui.jpg",
+      "/projects/AI Blog Generator/blog-generator.png",
+      "/projects/AI Blog Generator/blog-posts.png",
     ],
     technologies: ["OpenAI API", "Python", "Prompt Engineering", "SEO Optimization", "MDX", "Content Generation", "Bulk Processing"],
     features: [
@@ -42,7 +67,7 @@ export const projects: Project[] = [
       "Brand voice and identity customization",
       "SEO best practices integration"
     ],
-    link: "https://www.joinclubpack.com/blog"
+    link: "https://ai-blog-generator-demo.vercel.app/"
   },
   {
     id: 11,
@@ -203,7 +228,7 @@ export const projects: Project[] = [
     description:
       "Client website/web app built as my first monetized development project, taking a real business from concept to a polished, deployed product.",
     longDescription:
-      "Sort It Out is a professional website I built for a client's organizing business, representing my first successful monetization of technical skills. This project took me through the complete product lifecycle from 0 to 1, working directly with a client to understand their business needs and deliver a polished, production-ready web application. I used React and TypeScript to build this web app alongside Cursor AI, demonstrating my ability to leverage modern development tools and AI assistance to deliver high-quality results efficiently. This project showcases my client-facing capabilities, from initial consultation through iterative development and final deployment. The success of this project has led to ongoing recommendations and has positioned me to seek additional clients for web app development. This experience demonstrates not just technical proficiency, but also the ability to understand client needs, communicate effectively, and deliver products that meet business objectives.",
+      "Sort It Out is a professional website I built for a client's organizing business, representing my first successful monetization of technical skills. This project took me through the complete product lifecycle from 0 to 1, working directly with a client to understand their business needs and deliver a polished, production ready web application. I used React and TypeScript to build this web app alongside Cursor AI, demonstrating my ability to leverage modern development tools and AI assistance to deliver high-quality results efficiently. This project showcases my client-facing capabilities, from initial consultation through iterative development and final deployment. The success of this project has led to ongoing recommendations and has positioned me to seek additional clients for web app development. This experience demonstrates not just technical proficiency, but also the ability to understand client needs, communicate effectively, and deliver products that meet business objectives.",
     thumbnail: "/projects/sort_it_out/home.png",
     images: [
       "/projects/sort_it_out/home.png",
@@ -230,7 +255,7 @@ export const projects: Project[] = [
       "Business-focused solution delivery",
       "Monetized technical skills successfully"
     ],
-    link: "https://example.com"
+    link: "https://www.sortitoutsf.com/"
   },
 
   {
