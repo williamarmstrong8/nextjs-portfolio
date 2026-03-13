@@ -22,7 +22,7 @@ export const brands: Brand[] = [
     status: "In Funding",
     metrics: [
       { label: "Clubs Trialing", value: "25+" },
-      { label: "Funding Raised", value: "$1,500" }
+      { label: "Funding Raised", value: "$36,500" }
     ],
     website: "https://www.joinclubpack.com/",
     longDescription: "ClubPack is a comprehensive SaaS platform designed specifically for social club founders and managers. It addresses the core problem of fragmented club management by providing a unified solution that handles everything from event planning and RSVP tracking to custom website creation and detailed analytics. The platform streamlines club operations, reduces administrative overhead, and provides valuable insights to help clubs grow and thrive.",
@@ -33,7 +33,7 @@ export const brands: Brand[] = [
     ],
     accomplishments: [
       "25+ clubs currently in trial phase",
-      "$1,500 in pre-seed funding secured",
+      "$36,500 in pre-seed funding secured",
       "Featured in Boston College entrepreneurship showcase"
     ],
     features: [
@@ -89,8 +89,8 @@ export const brands: Brand[] = [
     category: "Health & Wellness",
     status: "Launched",
     metrics: [
-      { label: "Weekly Runners", value: "100+" },
-      { label: "Major Achievement", value: "Nike Partnership" }
+      { label: "Members", value: "3,000+" },
+      { label: "Partnership", value: "Nike" }
     ],
     website: "https://happymilerc.com/",
     longDescription: "HappyMile emerged from the need for accessible, social running communities in San Francisco. By combining fitness with community building, the club created a viral movement that attracted over 100 weekly participants and secured major brand partnerships including Nike. The club's success demonstrates the power of combining passion projects with strategic business development.",
