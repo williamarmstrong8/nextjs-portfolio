@@ -16,6 +16,29 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    id: 19,
+    title: "GTM Automation Pipeline",
+    category: "Product",
+    date: "2026",
+    thumbnail: "/projects/GTM-engineering/gtm-automation.jpg",
+    images: [
+      "/projects/GTM-engineering/gtm-automation.jpg"
+    ],
+    description: "An end to end go to market automation pipeline that captures inbound leads, enriches them with AI, scores and tiers them, and routes them to your CRM with custom cold outreach and a Slack notification for the sales team.",
+    longDescription: "I built a full GTM automation pipeline to turn inbound interest into qualified, ready to work leads without manual effort. The system starts with curated lead capture across multiple channels: landing pages, demo requests, resource downloads, educational content, and guided product tours. Every lead flows into n8n, which handles the initial intake and filters out low quality signals. From there, valid leads are sent to Clay for deep enrichment: industry, LinkedIn profile, company size, tech stack, and dozens of additional data points. An AI layer then reads that enriched data and generates a concise summary of who the lead is, what they care about, and how strong the fit is. That summary goes back into n8n, which scores and tiers the lead based on quality. High tier leads get routed into Attio with all enriched data attached and a custom cold outreach message already written for the assigned sales rep. The final step is a Slack notification that tells the team a new lead has come in, includes the quality tier, and surfaces the most relevant context so the rep can act immediately. The result is a pipeline where no lead gets dropped, every outreach is personalized, and the sales team only touches leads that are already researched and ready to contact.",
+    technologies: ["n8n", "Clay", "AI Enrichment", "Attio", "Slack", "Webhooks", "Automation"],
+    features: [
+      "Multi channel inbound lead capture: demos, resources, guided tours, educational content",
+      "n8n workflow for lead intake, filtering, and orchestration",
+      "Clay integration for deep lead enrichment: LinkedIn, industry, company data",
+      "AI generated lead summary and fit analysis",
+      "Lead scoring and tiering based on enrichment quality",
+      "Automatic CRM routing to Attio with full data attached",
+      "Custom cold outreach written per lead and assigned to a sales rep",
+      "Slack notification with lead quality and context for the sales team"
+    ]
+  },
+  {
     id: 18,
     title: "Armstrong Academy",
     category: "Product",
