@@ -14,7 +14,7 @@ function ExecutionCard() {
   return (
     <div
       className="relative flex flex-col justify-between overflow-hidden rounded-2xl bg-card border border-border p-6 md:p-8 md:col-span-2 h-full min-h-[300px] hover:border-primary/20 transition-colors"
-      aria-label="Concept to Launch: Full lifecycle ownership from abstract requirements to shipped products"
+      aria-label="Signal to Context: GTM pipelines that turn raw leads into qualified, ready-to-work opportunities"
     >
       {/* Background grid */}
       <div
@@ -31,9 +31,9 @@ function ExecutionCard() {
           </div>
           <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Velocity</span>
         </div>
-        <h3 className="text-2xl font-medium text-foreground leading-tight">Concept to Launch</h3>
+        <h3 className="text-2xl font-medium text-foreground leading-tight">Signal to Context</h3>
         <p className="text-neutral-500 dark:text-muted-foreground text-sm mt-3 leading-relaxed">
-        Full lifecycle execution. I turn raw concepts into live products, driving momentum from the first whiteboard sketch to the final deploy.
+        GTM pipelines that turn raw leads into qualified opportunities. Form → webhook → enrichment → classification → the right salesperson gets context, not just a name and email.
         </p>
       </div>
 
@@ -52,8 +52,8 @@ function ExecutionCard() {
             )}
           </div>
           <div className="flex flex-col md:items-center md:text-center">
-            <span className="text-sm font-semibold text-foreground">System Design</span>
-            <span className="text-[10px] text-muted-foreground">Blueprint</span>
+            <span className="text-sm font-semibold text-foreground">Intake</span>
+            <span className="text-[10px] text-muted-foreground">Capture</span>
           </div>
         </div>
 
@@ -96,8 +96,8 @@ function ExecutionCard() {
             )}
           </div>
           <div className="flex flex-col md:items-center md:text-center">
-            <span className="text-sm font-semibold text-foreground">Rapid Build</span>
-            <span className="text-[10px] text-muted-foreground">Iteration</span>
+            <span className="text-sm font-semibold text-foreground">Enrich</span>
+            <span className="text-[10px] text-muted-foreground">Data</span>
           </div>
         </div>
 
@@ -140,8 +140,8 @@ function ExecutionCard() {
             )}
           </div>
           <div className="flex flex-col md:items-center md:text-center">
-            <span className="text-sm font-semibold text-foreground">Market Launch</span>
-            <span className="text-[10px] text-muted-foreground">Shipped</span>
+            <span className="text-sm font-semibold text-foreground">Deliver</span>
+            <span className="text-[10px] text-muted-foreground">Context</span>
           </div>
         </div>
       </div>
@@ -157,7 +157,7 @@ function HumanCentricCard() {
   return (
     <div
       className="relative flex flex-col justify-between overflow-hidden rounded-2xl bg-card border border-border p-6 h-full min-h-[300px] md:col-span-1 hover:border-primary/20 transition-colors"
-      aria-label="The Connector: Bridging human needs and tangible solutions"
+      aria-label="The Connector: Bridging revenue teams with the context they need to have better conversations"
     >
       {/* Background: geometric texture */}
       <div
@@ -179,7 +179,7 @@ function HumanCentricCard() {
         </div>
         <h3 className="text-xl font-medium text-foreground">The Connector</h3>
         <p className="text-muted-foreground mt-3 text-sm leading-relaxed">
-          I bridge the gap between human needs and tangible solutions. I ensure the product, whether code or community, actually solves the problem.
+          I bridge engineering and revenue. Systems give sales teams context before the first call so they focus on people, not research.
         </p>
       </div>
 
@@ -223,7 +223,7 @@ function CommunityCard() {
   return (
     <div
       className="col-span-1 md:col-span-2 relative overflow-hidden rounded-2xl bg-card border border-border p-6 md:p-8 flex flex-col justify-between hover:border-primary/20 transition-colors"
-      aria-label="Community & Growth: Building digital ecosystems that scale"
+      aria-label="Community & Revenue: Ecosystems that scale. Audiences, members, and customers"
     >
       {/* Background: Abstract network pattern */}
       <div className="absolute inset-0 opacity-[0.03] pointer-events-none" aria-hidden="true">
@@ -256,9 +256,9 @@ function CommunityCard() {
         <div className="w-10 h-10 rounded-lg bg-muted/50 border border-border flex items-center justify-center mb-4 text-muted-foreground">
           <Globe className="w-5 h-5" />
         </div>
-        <h3 className="text-xl md:text-2xl font-medium text-foreground">Community & Growth</h3>
+        <h3 className="text-xl md:text-2xl font-medium text-foreground">Community & Revenue</h3>
         <p className="text-muted-foreground mt-2 max-w-md leading-relaxed text-sm md:text-base">
-          Building digital ecosystems that scale. I turn passive audiences into active movements through product-led storytelling.
+          Digital ecosystems that scale: communities, members, and customers. Systems that turn audiences into qualified pipeline and context for revenue teams.
         </p>
       </div>
 
@@ -299,7 +299,7 @@ function EngineeringCard() {
   return (
     <div
       className="relative flex flex-col justify-between overflow-hidden rounded-2xl bg-card border border-border p-6 md:p-8 md:col-span-1 h-full min-h-[300px] hover:border-primary/20 transition-colors"
-      aria-label="Engineering the New Standard: Traditional coding meets modern AI velocity"
+      aria-label="GTM Stack: Infrastructure that turns signals into context. APIs, automation, enrichment"
     >
       {/* Background pattern */}
       <div className="absolute inset-0 opacity-[0.03] pointer-events-none" aria-hidden="true">
@@ -341,15 +341,13 @@ function EngineeringCard() {
       {/* Bottom section */}
       <div className="relative z-10">
         <h3 className="text-xl font-medium text-foreground mb-2">
-          Engineering the
-          <br />
-          New Standard
+          GTM Stack
         </h3>
         <p className="text-muted-foreground text-sm leading-relaxed mb-4">
-          I combine new age coding fundamentals with modern AI velocity. Building production apps while teaching others the craft.
+          Clay, Supabase, Attio, n8n, Zapier, and AI agents on top. Building the infrastructure that lets small teams operate like large ones.
         </p>
         <div className="flex flex-wrap gap-2">
-          {["Next.js", "Cursor", "TypeScript"].map((tech) => (
+          {["Clay", "n8n", "Attio"].map((tech) => (
             <span
               key={tech}
               className="px-2.5 py-1 rounded-md bg-foreground/5 border border-foreground/10 text-[10px] uppercase tracking-wider font-medium text-muted-foreground"

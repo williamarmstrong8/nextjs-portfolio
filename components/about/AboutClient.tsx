@@ -10,9 +10,9 @@ export default function AboutClient() {
   // About cards data (do not change)
   const aboutCards = [
     {
-      title: "Engineer",
+      title: "GTM Engineer",
       description:
-        "Ship user-focused products across AI and SaaS using React, Next.js, Supabase, and analytics. Optimize workflows and reduce time-to-value through tight iteration loops.",
+        "Build revenue infrastructure: lead pipelines, enrichment, automation, and CRM workflows. Turn signals into context so sales teams can have better conversations.",
       icon: (
         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path
@@ -27,7 +27,7 @@ export default function AboutClient() {
     {
       title: "Entrepreneur",
       description:
-        "Founder driven by building early-stage startups through product-first thinking and rapid iteration. Own vision, roadmap, and end-to-end delivery from UX to implementation.",
+        "Founder building early-stage products with a systems mindset: vision, roadmap, and end-to-end delivery. GTM and product go hand in hand; I own both.",
       icon: (
         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path
@@ -42,7 +42,7 @@ export default function AboutClient() {
     {
       title: "Leader",
       description:
-        "Led 60+ person teams and owned operational execution across fast-moving environments. Turn strategy into measurable outcomes through systems, tracking, and accountability.",
+        "Led 60+ person teams and owned operational execution. Turn strategy into measurable outcomes through systems, tracking, and accountability.",
       icon: (
         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path
@@ -62,7 +62,7 @@ export default function AboutClient() {
       title: "Boston College",
       subtitle:
         "Bachelor of Science in Human-Centered Engineering, Minor in General Business",
-      date: "August 2022 — May 2026",
+      date: "August 2022 – May 2026",
       description:
         "Relevant courses include Machine Learning & Statistical Data Analysis, Computation and Programming, Circuits, Physical Modeling and Lab Analysis, Statics and Mechanics, Marketing, Engineering for Society, and Thermodynamics. Emphasizing Jesuit education blending rigorous academics with social responsibility and community impact.",
     },
@@ -78,18 +78,18 @@ export default function AboutClient() {
   // Experience timeline data (keep + render)
   const experienceItems = [
     {
+      title: "AdviserGPT",
+      subtitle: "GTM Engineer",
+      date: "May 2025 – Present",
+      description:
+        "Building the end-to-end GTM engine: website and resource hub for lead gen and conversion, AI-powered enrichment and automation (Clay, n8n, Supabase, Slack), and pipeline that captures, enriches, classifies, and delivers context-rich leads to sales.",
+    },
+    {
       title: "ClubPack",
-      subtitle: "Founder & Product Manager",
+      subtitle: "Founder",
       date: "May 2025 – Present",
       description:
         "Founded and built a multi-tenant SaaS platform for student and social clubs, serving 25+ active organizations. Own product vision and roadmap; designed UX and shipped end-to-end flows with React, Supabase, and Tailwind, iterating directly from user feedback. Selected for the Boston College Shea Accelerator and awarded $1,500 in funding.",
-    },
-    {
-      title: "AdviserGPT",
-      subtitle: "Product Intern",
-      date: "May 2025 – August 2025",
-      description:
-        "Partnered with engineers and leadership to iterate onboarding and core workflows for an AI content generation platform serving financial firms. Built a standalone AI blog generation product end-to-end (OpenAI API), reducing content creation time by ~80% and improving SEO content velocity. Produced demo assets and motion content in Adobe Suite to support sales and onboarding.",
     },
     {
       title: "Mark Farrell for Mayor Campaign",
@@ -161,8 +161,9 @@ export default function AboutClient() {
               delay: 0.4,
             }}
           >
-            Product-driven, human-centered engineer building user-focused software
-            across AI and SaaS with a bias toward shipping, metrics, and iteration.
+            GTM Engineer building revenue infrastructure: pipelines, automation, and
+            systems that connect product, sales, and data. Human-centered, systems-first,
+            with a bias toward shipping and iteration.
           </motion.p>
         </motion.section>
 

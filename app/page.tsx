@@ -6,7 +6,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "William Armstrong | Portfolio",
   description:
-    "Discover William Armstrong's portfolio: Product Engineer specializing in human-centered design, entrepreneur, and creative professional. Explore innovative projects, startups, and photography.",
+    "William Armstrong — GTM Engineer building revenue infrastructure: pipelines, automation, and systems that connect product, sales, and data. Explore projects, startups, and writing.",
   alternates: { canonical: "/" },
 };
 

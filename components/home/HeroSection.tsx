@@ -70,7 +70,7 @@ const HeroSection = () => {
           </h1>
           <div className="max-w-3xl mx-auto">
             <p className="text-muted-foreground mt-6 text-xl md:text-2xl lg:text-3xl font-medium italic">
-              Product Engineer with a focus on human-centered design
+              GTM Engineer. Systems, pipelines, and infrastructure for revenue teams.
             </p>
 
             <motion.div
@@ -117,16 +117,15 @@ const HeroSection = () => {
             </div>
 
             <p className="text-muted-foreground text-sm md:text-base font-medium mt-2">
-              Next.js • Edge • Performance
+              Pipelines • Automation • Enrichment
             </p>
 
             <p className="text-muted-foreground/80 text-sm md:text-[15px] leading-relaxed mt-3">
-              Static-first and edge-rendered systems built for reliability,
-              speed, and real-world tradeoffs.
+              APIs, workflows, and pipelines that capture, enrich, and route leads.
             </p>
 
             <div className="mt-4 flex flex-wrap gap-2">
-              {["Rendering", "Caching", "DX"].map((t) => (
+              {["Webhooks", "Data", "Workflows"].map((t) => (
                 <span
                   key={t}
                   className="text-xs md:text-[13px] px-2.5 py-1 rounded-full border border-border bg-background/30 text-muted-foreground"
@@ -202,16 +201,15 @@ const HeroSection = () => {
             </div>
 
             <p className="text-muted-foreground text-sm md:text-base font-medium mt-2">
-              Demos • Enablement • Outcomes
+              Context • Sales • Conversion
             </p>
 
             <p className="text-muted-foreground/80 text-sm md:text-[15px] leading-relaxed mt-3">
-              I translate technical value into clear stories so teams ship,
-              adopt, and grow with confidence.
+              Context and clarity for sales before the first call. Not spreadsheets.
             </p>
 
             <div className="mt-4 flex flex-wrap justify-end gap-2">
-              {["Demos", "Onboarding", "Alignment"].map((t) => (
+              {["Leads", "Fit", "Messaging"].map((t) => (
                 <span
                   key={t}
                   className="text-xs md:text-[13px] px-2.5 py-1 rounded-full border border-border bg-background/30 text-muted-foreground"
