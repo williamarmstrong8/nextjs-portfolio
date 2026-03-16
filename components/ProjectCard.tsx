@@ -28,27 +28,30 @@ const ProjectGridCard = ({
   const [imageError, setImageError] = useState(false);
 
   return (
-    <div
+    <button
+      type="button"
       onClick={onClick}
       className={cn(
-        "bg-card border border-border rounded-2xl overflow-hidden transition-all duration-300 ease-out hover:bg-accent/5 hover:scale-[1.02] hover:shadow-lg cursor-pointer group",
-        "flex flex-col h-full",
-        size === "compact" ? "min-h-[280px]" : "min-h-[540px]",
-        "shadow-[0_2px_8px_hsl(222_47%_11%_/_0.06)]",
+        "w-full text-left flex flex-col transition-all duration-300 ease-out hover:scale-[1.02] cursor-pointer group",
+        size === "compact" ? "min-h-0" : "",
         className
       )}
     >
-      {/* Image Section - 16:9 */}
+      {/* Image Card - distinct visual card with rounded corners and subtle styling */}
       {image && (
-        <div className={cn(
-          "relative w-full overflow-hidden aspect-video"
-        )}>
+        <div
+          className={cn(
+            "relative w-full overflow-hidden rounded-2xl border border-border/80 bg-gradient-to-br from-muted/20 via-muted/10 to-muted/30",
+            "shadow-[0_2px_12px_hsl(222_47%_11%_/_0.08)] transition-shadow duration-300 group-hover:shadow-lg",
+            "aspect-video"
+          )}
+        >
           {/* Loading placeholder */}
           {!imageLoaded && !imageError && (
-            <div className="absolute inset-0 bg-gradient-to-br from-muted/30 to-muted/50 flex items-center justify-center">
-              <div className="w-8 h-8 rounded-full bg-muted-foreground/20 flex items-center justify-center animate-pulse">
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-full bg-muted-foreground/15 flex items-center justify-center animate-pulse">
                 <svg
-                  className="w-4 h-4 text-muted-foreground"
+                  className="w-5 h-5 text-muted-foreground/60"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -61,10 +64,10 @@ const ProjectGridCard = ({
 
           {/* Error state */}
           {imageError && (
-            <div className="absolute inset-0 bg-gradient-to-br from-muted/30 to-muted/50 flex items-center justify-center">
-              <div className="w-8 h-8 rounded-full bg-red-500/20 flex items-center justify-center">
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-full bg-red-500/20 flex items-center justify-center">
                 <svg
-                  className="w-4 h-4 text-red-500"
+                  className="w-5 h-5 text-red-500"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -84,56 +87,44 @@ const ProjectGridCard = ({
             placeholder="blur"
             blurDataURL={BLUR_DATA_URL}
             className={cn(
-              "object-cover transition-all duration-500 group-hover:scale-105",
+              "object-cover transition-transform duration-500 group-hover:scale-105",
               imageLoaded ? "opacity-100" : "opacity-0"
             )}
             onLoad={() => setImageLoaded(true)}
             onError={() => setImageError(true)}
           />
-
-          {/* Gradient overlay for better text readability */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         </div>
       )}
 
-      {/* Content Section */}
-      <div className="flex flex-col justify-between flex-1 px-3 md:px-6 py-6">
-        <div className="flex-1">
-          <div className="mb-3 flex items-center justify-between">
-            <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
+      {/* Text and details - separate from image card */}
+      <div className="mt-5 flex flex-col gap-1">
+        <h3 className="text-xl font-bold text-foreground leading-tight group-hover:text-primary transition-colors line-clamp-2">
+          {title}
+        </h3>
+        <p className="text-sm text-muted-foreground">
+          {date && category ? (
+            <>
+              {date}
+              <span className="mx-1.5 text-muted-foreground/60" aria-hidden>•</span>
               {category}
-            </span>
-            {date && (
-              <span className="text-xs text-muted-foreground">
-                {date}
-              </span>
-            )}
-          </div>
-          <h3 className="text-lg font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
-            {title}
-          </h3>
-          <p className="text-sm text-muted-foreground leading-relaxed">
+            </>
+          ) : (
+            date || category
+          )}
+        </p>
+        {description && size !== "compact" && (
+          <p className="text-sm text-muted-foreground/90 leading-relaxed mt-2 line-clamp-2">
             {description}
           </p>
-        </div>
-
-        <div className="mt-4 pt-4 border-t border-border/50">
-          <div className="flex items-center justify-between">
-            <span className="text-xs text-muted-foreground">View Project</span>
-            <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-              <svg
-                className="w-3 h-3 text-primary group-hover:translate-x-0.5 transition-transform"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-            </div>
-          </div>
-        </div>
+        )}
+        <span className="inline-flex items-center gap-1.5 mt-3 text-sm font-medium text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+          View Project
+          <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </span>
       </div>
-    </div>
+    </button>
   );
 };
 

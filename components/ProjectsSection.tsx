@@ -35,7 +35,7 @@ const ProjectsSection = () => {
           </p>
         </motion.div>
 
-        {/* Startups Grid - one column until lg */}
+        {/* Startups Grid - image as card, text separate (same pattern as project cards) */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
           {featuredBrands.map((brand, index) => (
             <motion.div
@@ -50,76 +50,56 @@ const ProjectsSection = () => {
               }}
               whileHover={shouldReduceMotion ? undefined : { y: -6, transition: { duration: 0.2 } }}
             >
-            <Link
-              href="/startups"
-              className="block bg-card border border-border rounded-2xl overflow-hidden hover:shadow-lg transition-all duration-300 hover:scale-[1.02] group cursor-pointer h-full"
-            >
-              {/* Brand Image - 16:9 */}
-              {brand.screenshots && brand.screenshots.length > 0 ? (
-                <div className="relative w-full aspect-video overflow-hidden bg-muted">
-                  <Image
-                    src={brand.screenshots[0]}
-                    alt={brand.name}
-                    fill
-                    sizes="(max-width: 1024px) 100vw, 33vw"
-                    placeholder="blur"
-                    blurDataURL={BLUR_DATA_URL}
-                    className="object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <div className="absolute top-3 right-3">
-                    <span className="px-3 py-1 bg-background/90 backdrop-blur-sm text-foreground rounded-full text-xs font-medium">
-                      {brand.category}
-                    </span>
-                  </div>
-                </div>
-              ) : (
-                <div className="relative w-full aspect-video overflow-hidden bg-muted flex items-center justify-center p-6">
-                  <Image
-                    src={brand.logo}
-                    alt={brand.name}
-                    width={120}
-                    height={120}
-                    placeholder="blur"
-                    blurDataURL={BLUR_DATA_URL}
-                    className="object-contain group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <div className="absolute top-3 right-3">
-                    <span className="px-3 py-1 bg-background/90 backdrop-blur-sm text-foreground rounded-full text-xs font-medium">
-                      {brand.category}
-                    </span>
-                  </div>
-                </div>
-              )}
+              <Link
+                href="/startups"
+                className="flex flex-col w-full text-left transition-all duration-300 ease-out hover:scale-[1.02] group"
+              >
+                {/* Image Card - distinct visual card with rounded corners and subtle styling */}
+                <div className="relative w-full overflow-hidden rounded-2xl border border-border/80 bg-gradient-to-br from-muted/20 via-muted/10 to-muted/30 aspect-video shadow-[0_2px_12px_hsl(222_47%_11%_/_0.08)] transition-shadow duration-300 group-hover:shadow-lg">
+                  {brand.screenshots && brand.screenshots.length > 0 ? (
+                    <Image
+                      src={brand.screenshots[0]}
+                      alt={brand.name}
+                      fill
+                      sizes="(max-width: 1024px) 100vw, 33vw"
+                      placeholder="blur"
+                      blurDataURL={BLUR_DATA_URL}
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                  ) : (
+                    <div className="absolute inset-0 flex items-center justify-center p-8">
+                      <div className="relative w-24 h-24 md:w-28 md:h-28">
+                        <Image
+                          src={brand.logo}
+                          alt={brand.name}
+                          fill
+                          className="object-contain transition-transform duration-300 group-hover:scale-105"
+                          sizes="112px"
+                          placeholder="blur"
+                          blurDataURL={BLUR_DATA_URL}
+                        />
+                      </div>
+                    </div>
+                  )}
 
-              {/* Brand Content */}
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
-                  {brand.name}
-                </h3>
-                <p className="text-sm text-muted-foreground mb-4 line-clamp-3">
-                  {brand.description}
-                </p>
+                </div>
 
-                {/* Frameworks / Tags */}
-                {brand.frameworks && brand.frameworks.length > 0 && (
-                  <div className="flex flex-wrap gap-2">
-                    {brand.frameworks.slice(0, 3).map((tech, idx) => (
-                      <span
-                        key={idx}
-                        className="px-2 py-1 bg-muted text-muted-foreground rounded text-xs"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                    {brand.frameworks.length > 3 && (
-                      <span className="px-2 py-1 text-muted-foreground rounded text-xs">
-                        +{brand.frameworks.length - 3} more
-                      </span>
-                    )}
-                  </div>
-                )}
-              </div>
-            </Link>
+                {/* Text and details - separate from image card */}
+                <div className="mt-5 flex flex-col gap-1">
+                  <h3 className="text-xl font-bold text-foreground leading-tight group-hover:text-primary transition-colors line-clamp-2">
+                    {brand.name}
+                  </h3>
+                  <p className="text-sm text-muted-foreground line-clamp-2 mt-1">
+                    {brand.description}
+                  </p>
+                  <span className="inline-flex items-center gap-1.5 mt-3 text-sm font-medium text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                    View startup
+                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </span>
+                </div>
+              </Link>
             </motion.div>
           ))}
         </div>

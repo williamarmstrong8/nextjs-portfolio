@@ -26,7 +26,7 @@ export const brands: Brand[] = [
     ],
     website: "https://www.joinclubpack.com/",
     longDescription: "ClubPack is a comprehensive SaaS platform designed specifically for social club founders and managers. It addresses the core problem of fragmented club management by providing a unified solution that handles everything from event planning and RSVP tracking to custom website creation and detailed analytics. The platform streamlines club operations, reduces administrative overhead, and provides valuable insights to help clubs grow and thrive.",
-    frameworks: ["React", "Node.js", "Supabase", "Stripe API"],
+    frameworks: ["Next.js 16", "Node.js", "Supabase", "Stripe API"],
     screenshots: [
       "/brands/clubpack/clubpack.png",
       "/brands/clubpack/screenshot.png"
@@ -56,7 +56,7 @@ export const brands: Brand[] = [
     ],
     website: "https://modbrew.vercel.app/",
     longDescription: "ModBrew revolutionized campus coffee culture by introducing a speakeasy-style coffee experience. What started as a freshman year entrepreneurial experiment quickly became a campus sensation, serving over 1000 customers and generating significant revenue through strategic pop-up locations and premium pricing strategy.",
-    frameworks: ["Social Media Marketing", "WordPress", "Canva", "Mailchimp"],
+    frameworks: ["Vercel", "Next.js", "Social Media Marketing", "Instagram Branding", "Canva"],
     screenshots: [
       "/brands/modbrew/wide.jpeg",
       "/brands/modbrew/group.jpeg",
@@ -94,7 +94,7 @@ export const brands: Brand[] = [
     ],
     website: "https://happymilerc.com/",
     longDescription: "HappyMile emerged from the need for accessible, social running communities in San Francisco. By combining fitness with community building, the club created a viral movement that attracted over 100 weekly participants and secured major brand partnerships including Nike. The club's success demonstrates the power of combining passion projects with strategic business development.",
-    frameworks: ["Social media marketing", "Google Maps", "Strava Integration", "Mailchimp"],
+    frameworks: ["Squarespace", "Strava", "Social Media Marketing", "Brand Partnerships", "SF Wide Community Awareness"],
     screenshots: [
       "/brands/happy-mile/gathering.jpeg",
       "/brands/happy-mile/merch.jpeg",
@@ -132,8 +132,8 @@ export const brands: Brand[] = [
     longDescription: "Destination Drifters was born from my freshman year experience and the lack of outdoor inspiration content. Starting as a personal blog and Instagram account, it evolved into a full brand with merchandise sales and campus-wide recognition. The brand successfully monetized through merchandise and built a community of outdoor enthusiasts.",
     frameworks: ["React", "Instagram Business", "Adobe Suite"],
     screenshots: [
-      "/brands/drifters/hero.png",
       "/brands/drifters/3-shot.jpeg",
+      "/brands/drifters/hero.png",
       "/brands/drifters/instagram.jpg",
       "/brands/drifters/ever-to-explore.jpeg",
       "/brands/drifters/journal.png",

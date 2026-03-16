@@ -38,6 +38,7 @@ export default function MoreStories({ posts }: Props) {
             slug={post.slug}
             excerpt={post.excerpt}
             number={post.number}
+            category={post.category}
           />
         </motion.div>
       ))}
