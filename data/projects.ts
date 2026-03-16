@@ -42,7 +42,7 @@ export const projects: Project[] = [
     id: 18,
     title: "Armstrong Academy",
     category: "Product",
-    date: "2025",
+    date: "2026",
     thumbnail: "/projects/armstrong-academy/armstrong-academy-bento.jpg",
     images: [
       "/projects/armstrong-academy/armstrong-academy-bento.jpg",

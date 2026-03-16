@@ -1,6 +1,6 @@
 ---
 title: "The Rise of the GTM Engineer"
-excerpt: "I have lived between worlds—engineering, business, people. Not fully one, but always in the intersection. GTM Engineering is the role that finally fits: building the infrastructure behind revenue."
+excerpt: "I have lived between worlds: engineering, business, people. Not fully one, but always in the intersection. GTM Engineering is the role that finally fits: building the infrastructure behind revenue."
 coverImage: "/blog/gtm-engineer.jpg"
 date: "2025-03-15T12:00:00.000Z"
 category: Engineering

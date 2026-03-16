@@ -54,8 +54,7 @@ export default function BlogClient({ posts, categories }: BlogClientProps) {
             delay: 0.4,
           }}
         >
-          Thoughts on human-centered design, product engineering, and building
-          things that matter.
+          Thoughts on my building process and what I learn along the way.
         </motion.p>
       </motion.section>
 

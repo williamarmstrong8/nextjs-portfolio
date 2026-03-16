@@ -3,9 +3,9 @@ import { getAllPosts, getCategories } from "@/lib/blog/api";
 import BlogClient from "@/components/blog/BlogClient";
 
 export const metadata: Metadata = {
-  title: "Blog | William Armstrong - Product Engineer & Entrepreneur",
+  title: "Blog | William Armstrong - GTM Engineer & Entrepreneur",
   description:
-    "Insights on human-centered design, product engineering, and building innovative solutions. Read William Armstrong's thoughts on startups, Next.js, and modern web development.",
+    "Thoughts on my building process and what I learn. William Armstrong on product, engineering, and shipping.",
   alternates: { canonical: "/blog" },
 };
 
