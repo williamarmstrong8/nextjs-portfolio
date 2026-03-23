@@ -223,10 +223,12 @@ const ProjectModal = ({ isOpen, onClose, project }: ProjectModalProps) => {
                     />
                   </div>
                 ) : mediaItems.length === 1 && mediaItems[0].type === 'video' ? (
-                  <div className="relative w-full aspect-video max-h-[70vh] rounded-2xl overflow-hidden bg-black">
+                  <div className="relative w-full aspect-video max-h-[70vh] rounded-2xl overflow-hidden bg-black flex items-center justify-center">
                     <video
                       src={mediaItems[0].src}
-                      className="w-full h-full object-contain rounded-2xl"
+                      className="h-full w-auto max-w-full object-contain rounded-2xl"
+                      preload="metadata"
+                      playsInline
                       controls
                     />
                   </div>
@@ -260,11 +262,15 @@ const ProjectModal = ({ isOpen, onClose, project }: ProjectModalProps) => {
                                 />
                               </>
                             ) : (
-                              <video
-                                src={mediaItem.src}
-                                className="h-full w-full object-contain"
-                                controls
-                              />
+                              <div className="h-full w-full bg-black flex items-center justify-center">
+                                <video
+                                  src={mediaItem.src}
+                                  className="h-full w-auto max-w-full object-contain"
+                                  preload="metadata"
+                                  playsInline
+                                  controls
+                                />
+                              </div>
                             )}
                           </div>
                         ))}
