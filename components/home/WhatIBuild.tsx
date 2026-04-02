@@ -14,7 +14,7 @@ function ExecutionCard() {
   return (
     <div
       className="relative flex flex-col justify-between overflow-hidden rounded-2xl bg-card border border-border p-6 md:p-8 md:col-span-2 h-full min-h-[300px] hover:border-primary/20 transition-colors"
-      aria-label="Signal to Context: GTM pipelines that turn raw leads into qualified, ready-to-work opportunities"
+      aria-label="Signal to Solution: Technical workflows that turn complex requirements into working integrations"
     >
       {/* Background grid */}
       <div
@@ -31,9 +31,9 @@ function ExecutionCard() {
           </div>
           <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Velocity</span>
         </div>
-        <h3 className="text-2xl font-medium text-foreground leading-tight">Signal to Context</h3>
+        <h3 className="text-2xl font-medium text-foreground leading-tight">Signal to Solution</h3>
         <p className="text-neutral-500 dark:text-muted-foreground text-sm mt-3 leading-relaxed">
-        GTM pipelines that turn raw leads into qualified opportunities. Form → webhook → enrichment → classification → the right salesperson gets context, not just a name and email.
+        End-to-end technical workflows that turn raw inputs into actionable outcomes. Intake → webhook → enrichment → classification → the right team gets context, not just data.
         </p>
       </div>
 
@@ -157,7 +157,7 @@ function HumanCentricCard() {
   return (
     <div
       className="relative flex flex-col justify-between overflow-hidden rounded-2xl bg-card border border-border p-6 h-full min-h-[300px] md:col-span-1 hover:border-primary/20 transition-colors"
-      aria-label="The Connector: Bridging revenue teams with the context they need to have better conversations"
+      aria-label="The Connector: Bridging technical and business teams with the context they need"
     >
       {/* Background: geometric texture */}
       <div
@@ -179,7 +179,7 @@ function HumanCentricCard() {
         </div>
         <h3 className="text-xl font-medium text-foreground">The Connector</h3>
         <p className="text-muted-foreground mt-3 text-sm leading-relaxed">
-          I bridge engineering and revenue. Systems give sales teams context before the first call so they focus on people, not research.
+          I bridge engineering and business. Technical depth meets clear communication so teams focus on solutions, not guesswork.
         </p>
       </div>
 
@@ -223,7 +223,7 @@ function CommunityCard() {
   return (
     <div
       className="col-span-1 md:col-span-2 relative overflow-hidden rounded-2xl bg-card border border-border p-6 md:p-8 flex flex-col justify-between hover:border-primary/20 transition-colors"
-      aria-label="Community & Revenue: Ecosystems that scale. Audiences, members, and customers"
+      aria-label="Community & Growth: Ecosystems that scale. Audiences, members, and customers"
     >
       {/* Background: Abstract network pattern */}
       <div className="absolute inset-0 opacity-[0.03] pointer-events-none" aria-hidden="true">
@@ -256,9 +256,9 @@ function CommunityCard() {
         <div className="w-10 h-10 rounded-lg bg-muted/50 border border-border flex items-center justify-center mb-4 text-muted-foreground">
           <Globe className="w-5 h-5" />
         </div>
-        <h3 className="text-xl md:text-2xl font-medium text-foreground">Community & Revenue</h3>
+        <h3 className="text-xl md:text-2xl font-medium text-foreground">Community & Growth</h3>
         <p className="text-muted-foreground mt-2 max-w-md leading-relaxed text-sm md:text-base">
-          Digital ecosystems that scale: communities, members, and customers. Systems that turn audiences into qualified pipeline and context for revenue teams.
+          Digital ecosystems that scale: communities, members, and customers. Systems that turn audiences into engaged users and drive adoption.
         </p>
       </div>
 
@@ -299,7 +299,7 @@ function EngineeringCard() {
   return (
     <div
       className="relative flex flex-col justify-between overflow-hidden rounded-2xl bg-card border border-border p-6 md:p-8 md:col-span-1 h-full min-h-[300px] hover:border-primary/20 transition-colors"
-      aria-label="GTM Stack: Infrastructure that turns signals into context. APIs, automation, enrichment"
+      aria-label="Technical Stack: Infrastructure that turns complexity into clarity. APIs, automation, integrations"
     >
       {/* Background pattern */}
       <div className="absolute inset-0 opacity-[0.03] pointer-events-none" aria-hidden="true">
@@ -341,13 +341,13 @@ function EngineeringCard() {
       {/* Bottom section */}
       <div className="relative z-10">
         <h3 className="text-xl font-medium text-foreground mb-2">
-          GTM Stack
+          Technical Stack
         </h3>
         <p className="text-muted-foreground text-sm leading-relaxed mb-4">
-          Clay, Supabase, Attio, n8n, Zapier, and AI agents on top. Building the infrastructure that lets small teams operate like large ones.
+          Supabase, n8n, Next.js, APIs, and AI agents on top. Building the integrations and infrastructure that let small teams operate like large ones.
         </p>
         <div className="flex flex-wrap gap-2">
-          {["Clay", "n8n", "Attio"].map((tech) => (
+          {["APIs", "n8n", "Supabase"].map((tech) => (
             <span
               key={tech}
               className="px-2.5 py-1 rounded-md bg-foreground/5 border border-foreground/10 text-[10px] uppercase tracking-wider font-medium text-muted-foreground"

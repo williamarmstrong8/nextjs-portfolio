@@ -10,9 +10,9 @@ export default function AboutClient() {
   // About cards data (do not change)
   const aboutCards = [
     {
-      title: "GTM Engineer",
+      title: "Solutions Engineer",
       description:
-        "Build revenue infrastructure: lead pipelines, enrichment, automation, and CRM workflows. Turn signals into context so sales teams can have better conversations.",
+        "Build technical solutions that bridge product and business: integrations, automation, and architecture. Translate complex systems into clear outcomes for customers.",
       icon: (
         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path
@@ -27,7 +27,7 @@ export default function AboutClient() {
     {
       title: "Entrepreneur",
       description:
-        "Founder building early-stage products with a systems mindset: vision, roadmap, and end-to-end delivery. GTM and product go hand in hand; I own both.",
+        "Founder building early-stage products with a systems mindset: vision, roadmap, and end-to-end delivery. Technical strategy and product go hand in hand; I own both sides.",
       icon: (
         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path
@@ -42,7 +42,7 @@ export default function AboutClient() {
     {
       title: "Leader",
       description:
-        "Led 60+ person teams and owned operational execution. Turn strategy into measurable outcomes through systems, tracking, and accountability.",
+        "Led 60+ person teams and owned end-to-end operational execution. Turn high-level strategy into measurable outcomes through systems, tracking, and accountability.",
       icon: (
         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path
@@ -79,10 +79,10 @@ export default function AboutClient() {
   const experienceItems = [
     {
       title: "AdviserGPT",
-      subtitle: "GTM Engineer",
+      subtitle: "Solutions Engineer",
       date: "May 2025 – Present",
       description:
-        "Building the end-to-end GTM engine: website and resource hub for lead gen and conversion, AI-powered enrichment and automation (Clay, n8n, Supabase, Slack), and pipeline that captures, enriches, classifies, and delivers context-rich leads to sales.",
+        "Architecting the end-to-end technical platform: website and resource hub for customer acquisition, AI-powered enrichment and automation (n8n, Supabase, Slack), and integration pipelines that capture, enrich, classify, and deliver context-rich data to the team.",
     },
     {
       title: "ClubPack",
@@ -161,9 +161,9 @@ export default function AboutClient() {
               delay: 0.4,
             }}
           >
-            GTM Engineer building revenue infrastructure: pipelines, automation, and
-            systems that connect product, sales, and data. Human-centered, systems-first,
-            with a bias toward shipping and iteration.
+            Solutions-minded engineer who bridges product, engineering, and business.
+            Automation, integrations, and systems that make complex things simple.
+            Human-centered, systems-first, with a bias toward shipping and iteration.
           </motion.p>
         </motion.section>
 

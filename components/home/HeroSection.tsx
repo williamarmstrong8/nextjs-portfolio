@@ -70,7 +70,7 @@ const HeroSection = () => {
           </h1>
           <div className="max-w-3xl mx-auto">
             <p className="text-muted-foreground mt-6 text-xl md:text-2xl lg:text-3xl font-medium italic">
-              GTM Engineer. Systems, pipelines, and infrastructure for revenue teams.
+              Engineer. Builder. Bridging product, engineering, and business.
             </p>
 
             <motion.div
@@ -117,15 +117,15 @@ const HeroSection = () => {
             </div>
 
             <p className="text-muted-foreground text-sm md:text-base font-medium mt-2">
-              Pipelines • Automation • Enrichment
+              Systems • Integrations • Architecture
             </p>
 
             <p className="text-muted-foreground/80 text-sm md:text-[15px] leading-relaxed mt-3">
-              APIs, workflows, and pipelines that capture, enrich, and route leads.
+              APIs, workflows, and integrations that connect platforms and solve complex technical problems.
             </p>
 
             <div className="mt-4 flex flex-wrap gap-2">
-              {["Webhooks", "Data", "Workflows"].map((t) => (
+              {["APIs", "Data", "Workflows"].map((t) => (
                 <span
                   key={t}
                   className="text-xs md:text-[13px] px-2.5 py-1 rounded-full border border-border bg-background/30 text-muted-foreground"
@@ -201,15 +201,15 @@ const HeroSection = () => {
             </div>
 
             <p className="text-muted-foreground text-sm md:text-base font-medium mt-2">
-              Context • Sales • Conversion
+              Strategy • Solutions • Communication
             </p>
 
             <p className="text-muted-foreground/80 text-sm md:text-[15px] leading-relaxed mt-3">
-              Context and clarity for sales before the first call. Not spreadsheets.
+              Translating technical complexity into clear solutions for stakeholders and customers.
             </p>
 
             <div className="mt-4 flex flex-wrap justify-end gap-2">
-              {["Leads", "Fit", "Messaging"].map((t) => (
+              {["Discovery", "Fit", "Delivery"].map((t) => (
                 <span
                   key={t}
                   className="text-xs md:text-[13px] px-2.5 py-1 rounded-full border border-border bg-background/30 text-muted-foreground"

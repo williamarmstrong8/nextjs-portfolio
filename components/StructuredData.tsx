@@ -21,26 +21,27 @@ export function StructuredData({ type, data }: StructuredDataProps) {
         '@type': 'Person',
         givenName: 'William',
         familyName: 'Armstrong',
-        description: 'Product Engineer specializing in human-centered design and entrepreneurship',
+        description: 'Solutions Engineer bridging product, engineering, and business — automation, integrations, and systems thinking',
         image: 'https://williamarmstrong.dev/william-armstrong-og.png',
         sameAs: [
           'https://www.linkedin.com/in/william-armstrong8/',
           'https://github.com/williamarmstrong8'
         ],
         knowsAbout: [
-          'Product Engineering',
+          'Solutions Engineering',
+          'Systems Architecture',
+          'Technical Integrations',
+          'Automation & Workflows',
           'Human-Centered Design',
           'Entrepreneurship',
-          'UI/UX Design',
-          'Software Development',
-          'Venture Building'
+          'Software Development'
         ],
         alumniOf: {
           '@type': 'EducationalOrganization',
           name: 'Boston College',
           department: 'Human-Centered Engineering'
         },
-        jobTitle: 'Product Engineer',
+        jobTitle: 'Solutions Engineer',
         worksFor: {
           '@type': 'Organization',
           name: 'Various Entrepreneurial Ventures'
@@ -57,7 +58,7 @@ export function StructuredData({ type, data }: StructuredDataProps) {
       return {
         ...baseData,
         '@type': 'WebSite',
-        description: 'Portfolio of William Armstrong: Product Engineer specializing in human-centered design, entrepreneur, and creative professional.',
+        description: 'Portfolio of William Armstrong: Solutions Engineer bridging product, engineering, and business. Entrepreneur and builder.',
         potentialAction: {
           '@type': 'SearchAction',
           target: 'https://williamarmstrong.dev/search?q={search_term_string}',

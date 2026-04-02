@@ -3,9 +3,9 @@ import AboutClient from "@/components/about/AboutClient";
 import { StructuredData } from "@/components/StructuredData";
 
 export const metadata: Metadata = {
-  title: "About William Armstrong - GTM Engineer & Entrepreneur",
+  title: "About William Armstrong - Solutions Engineer & Entrepreneur",
   description:
-    "William Armstrong: GTM Engineer building revenue infrastructure—pipelines, automation, and systems that connect product, sales, and data. Boston College, entrepreneur, and leader in product and go-to-market.",
+    "William Armstrong: Solutions Engineer bridging product, engineering, and business—automation, integrations, and systems thinking. Boston College, entrepreneur, and builder with a bias toward shipping.",
   alternates: { canonical: "/about" },
 };
 

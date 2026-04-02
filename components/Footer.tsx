@@ -30,7 +30,7 @@ export default function Footer() {
                 William Armstrong
               </h2>
               <p className="text-muted-foreground text-sm mt-0.5">
-                GTM Engineer & Entrepreneur
+                Solutions Engineer & Entrepreneur
               </p>
             </Link>
           </div>
@@ -85,7 +85,7 @@ export default function Footer() {
             </h3>
             <Link href="/" className="hover:opacity-80 transition-opacity block">
               <p className="text-muted-foreground text-sm leading-relaxed">
-                GTM Engineer and founder. I build revenue infrastructure: pipelines, automation, and systems that connect product, sales, and data. Human-centered, systems-first.
+                Solutions Engineer and founder. I build technical solutions: integrations, automation, and systems that bridge product, engineering, and business. Human-centered, systems-first.
               </p>
             </Link>
           </div>
