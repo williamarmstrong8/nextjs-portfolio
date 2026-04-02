@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import { BLUR_DATA_URL } from "@/lib/blur";
 import { Skeleton } from "@/components/ui/skeleton";
 
 interface Brand {
@@ -26,6 +27,17 @@ interface BrandModalProps {
   brand: Brand | null;
 }
 
+const DEFAULT_RATIO = 16 / 9;
+
+function measureImageRatio(src: string): Promise<number> {
+  return new Promise((resolve) => {
+    const img = document.createElement("img");
+    img.onload = () => resolve(img.naturalWidth / img.naturalHeight);
+    img.onerror = () => resolve(DEFAULT_RATIO);
+    img.src = src;
+  });
+}
+
 const BrandModal = ({ isOpen, onClose, brand }: BrandModalProps) => {
   const [currentMediaIndex, setCurrentMediaIndex] = useState(0);
   const [mediaAspectRatios, setMediaAspectRatios] = useState<number[]>([]);
@@ -40,11 +52,7 @@ const BrandModal = ({ isOpen, onClose, brand }: BrandModalProps) => {
     setLoadedThumbIndices((prev) => new Set(prev).add(index));
   }, []);
 
-  // Same mental model as Projects modal (variable widths based on aspect ratio)
-  const mediaItems = useMemo(
-    () => [...(brand?.screenshots?.map((img) => ({ type: "image" as const, src: img })) || [])],
-    [brand]
-  );
+  const mediaItems = brand?.screenshots?.map((img) => ({ type: "image" as const, src: img })) ?? [];
 
   useEffect(() => {
     if (isOpen) {
@@ -67,114 +75,72 @@ const BrandModal = ({ isOpen, onClose, brand }: BrandModalProps) => {
     return () => document.removeEventListener("keydown", handleEscape);
   }, [isOpen, onClose]);
 
-  // Reset loaded state when modal or brand changes
   useEffect(() => {
     if (isOpen && brand) {
+      setMediaAspectRatios([]);
       setLoadedMediaIndices(new Set());
       setLoadedThumbIndices(new Set());
     }
   }, [isOpen, brand]);
 
-  // Measure aspect ratios when modal opens (skeleton shown until done)
+  // Non-blocking parallel aspect ratio measurement
   useEffect(() => {
-    if (!isOpen) return;
-
-    if (mediaItems.length === 0) {
-      setMediaAspectRatios([]);
-      return;
-    }
-
-    setMediaAspectRatios([]);
+    if (!isOpen || mediaItems.length <= 1) return;
     let cancelled = false;
 
-    const loadAspectRatios = async () => {
-      const ratios = await Promise.all(
-        mediaItems.map(
-          (item) =>
-            new Promise<number>((resolve) => {
-              const img = new window.Image();
-              img.onload = () => {
-                const w = img.naturalWidth || 4;
-                const h = img.naturalHeight || 3;
-                resolve(w / h);
-              };
-              img.onerror = () => resolve(4 / 3);
-              img.src = item.src;
-            })
-        )
-      );
-
+    Promise.all(mediaItems.map((item) => measureImageRatio(item.src))).then((ratios) => {
       if (!cancelled) setMediaAspectRatios(ratios);
-    };
+    });
 
-    loadAspectRatios();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [isOpen, mediaItems]);
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen, brand]);
 
   if (!isOpen || !brand) return null;
 
   const nextMedia = () => {
-    if (mediaItems.length > 0) {
+    if (mediaItems.length > 1) {
       setCurrentMediaIndex((prev) => (prev + 1) % mediaItems.length);
     }
   };
 
   const prevMedia = () => {
-    if (mediaItems.length > 0) {
+    if (mediaItems.length > 1) {
       setCurrentMediaIndex((prev) => (prev - 1 + mediaItems.length) % mediaItems.length);
     }
   };
 
-  // Same centering logic as Projects modal
+  const ratiosReady = mediaAspectRatios.length === mediaItems.length;
+  const ratios = ratiosReady ? mediaAspectRatios : mediaItems.map(() => DEFAULT_RATIO);
+
   const calculateTransform = () => {
-    if (!containerRef.current || mediaItems.length === 0 || mediaAspectRatios.length === 0) {
-      return "translateX(0)";
-    }
+    if (!containerRef.current || mediaItems.length <= 1) return "translateX(0)";
 
     const containerWidth = containerRef.current.offsetWidth;
     const containerHeight = containerRef.current.offsetHeight;
+    const mediaWidths = ratios.map((r) => containerHeight * r);
 
-    const mediaWidths = mediaAspectRatios.map((ratio) => containerHeight * ratio);
-
-    let cumulativeWidth = 0;
-    const mediaPositions = mediaWidths.map((width) => {
-      const position = cumulativeWidth;
-      cumulativeWidth += width;
-      return position;
-    });
-
-    const currentMediaPosition = mediaPositions[currentMediaIndex] || 0;
-    const currentMediaWidth = mediaWidths[currentMediaIndex] || containerWidth;
-    const currentMediaCenter = currentMediaPosition + currentMediaWidth / 2;
+    let cum = 0;
+    const positions = mediaWidths.map((w) => { const p = cum; cum += w; return p; });
 
     if (currentMediaIndex === 0) return "translateX(0px)";
 
     if (currentMediaIndex === mediaItems.length - 1) {
-      const totalWidth =
-        (mediaPositions[mediaPositions.length - 1] || 0) +
-        (mediaWidths[mediaWidths.length - 1] || 0);
-      const translateX = Math.max(0, totalWidth - containerWidth);
-      return `translateX(-${translateX}px)`;
+      const total = positions[positions.length - 1] + mediaWidths[mediaWidths.length - 1];
+      return `translateX(-${Math.max(0, total - containerWidth)}px)`;
     }
 
-    const containerCenter = containerWidth / 2;
-    const translateX = Math.max(0, currentMediaCenter - containerCenter);
-    return `translateX(-${translateX}px)`;
+    const center = positions[currentMediaIndex] + mediaWidths[currentMediaIndex] / 2;
+    return `translateX(-${Math.max(0, center - containerWidth / 2)}px)`;
   };
 
   const statusBadgeClass = "bg-muted text-foreground border border-border";
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
-      {/* Backdrop */}
       <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
 
-      {/* Modal Content */}
       <div className="relative flex flex-col bg-background border border-border rounded-3xl shadow-2xl max-w-7xl max-h-[95vh] w-full mx-4 overflow-hidden">
-        {/* Header */}
         <div className="flex-shrink-0 flex items-center justify-between p-6 border-b border-border">
           <div className="flex items-center gap-4">
             <Image
@@ -183,7 +149,6 @@ const BrandModal = ({ isOpen, onClose, brand }: BrandModalProps) => {
               width={48}
               height={48}
               className="object-contain"
-              loading="lazy"
             />
             <div>
               <span className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
@@ -205,35 +170,28 @@ const BrandModal = ({ isOpen, onClose, brand }: BrandModalProps) => {
           </button>
         </div>
 
-        {/* Content */}
         <div className="flex-1 min-h-0 overflow-y-auto">
           <div className="p-6 pb-12">
-            {/* Media Gallery */}
             {mediaItems.length > 0 && (
               <div className="mb-8">
-                {mediaAspectRatios.length !== mediaItems.length ? (
-                  <Skeleton
-                    className="w-full rounded-2xl"
-                    style={{ aspectRatio: "16/9" }}
-                  />
-                ) : mediaItems.length === 1 ? (
-                  <div className="w-full">
-                    <div className="relative w-full aspect-video rounded-2xl overflow-hidden bg-muted">
-                      {!loadedMediaIndices.has(0) && (
-                        <Skeleton className="absolute inset-0 rounded-2xl" />
-                      )}
-                      <Image
-                        src={mediaItems[0].src}
-                        alt={`${brand.name} screenshot`}
-                        fill
-                        sizes="(max-width: 768px) 100vw, 1200px"
-                        className={cn("object-contain transition-opacity duration-200", loadedMediaIndices.has(0) ? "opacity-100" : "opacity-0")}
-                        loading="lazy"
-                        onLoad={() => onMediaLoad(0)}
-                        onError={() => onMediaLoad(0)}
-                      />
-                    </div>
+                {mediaItems.length === 1 ? (
+                  <div className="relative w-full aspect-video rounded-2xl overflow-hidden bg-muted">
+                    {!loadedMediaIndices.has(0) && <Skeleton className="absolute inset-0 rounded-2xl z-10" />}
+                    <Image
+                      src={mediaItems[0].src}
+                      alt={`${brand.name} screenshot`}
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1100px"
+                      className={cn("object-contain transition-opacity duration-300", loadedMediaIndices.has(0) ? "opacity-100" : "opacity-0")}
+                      priority
+                      placeholder="blur"
+                      blurDataURL={BLUR_DATA_URL}
+                      onLoad={() => onMediaLoad(0)}
+                      onError={() => onMediaLoad(0)}
+                    />
                   </div>
+                ) : !ratiosReady ? (
+                  <Skeleton className="w-full rounded-2xl" style={{ aspectRatio: "16/9" }} />
                 ) : (
                   <div className="relative rounded-2xl overflow-hidden bg-muted">
                     <div ref={containerRef} className="w-full aspect-video overflow-hidden">
@@ -241,65 +199,48 @@ const BrandModal = ({ isOpen, onClose, brand }: BrandModalProps) => {
                         className="flex transition-transform duration-300 ease-in-out h-full"
                         style={{ transform: calculateTransform() }}
                       >
-                        {mediaItems.map((mediaItem, index) => {
-                          const ratio = mediaAspectRatios[index] ?? 4 / 3;
-                          return (
-                            <div
-                              key={index}
-                              className="flex-shrink-0 relative overflow-hidden h-full bg-muted"
-                              style={{ aspectRatio: ratio }}
-                            >
-                              {!loadedMediaIndices.has(index) && (
-                                <Skeleton className="absolute inset-0" />
-                              )}
-                              <Image
-                                src={mediaItem.src}
-                                alt={`${brand.name} - Screenshot ${index + 1}`}
-                                fill
-                                sizes="(max-width: 768px) 100vw, 1200px"
-                                className={cn("object-contain transition-opacity duration-200", loadedMediaIndices.has(index) ? "opacity-100" : "opacity-0")}
-                                loading="lazy"
-                                onLoad={() => onMediaLoad(index)}
-                                onError={() => onMediaLoad(index)}
-                              />
-                            </div>
-                          );
-                        })}
+                        {mediaItems.map((mediaItem, index) => (
+                          <div
+                            key={index}
+                            className="flex-shrink-0 relative overflow-hidden h-full bg-muted"
+                            style={{ aspectRatio: ratios[index] }}
+                          >
+                            {!loadedMediaIndices.has(index) && <Skeleton className="absolute inset-0 z-10" />}
+                            <Image
+                              src={mediaItem.src}
+                              alt={`${brand.name} - Screenshot ${index + 1}`}
+                              fill
+                              sizes="600px"
+                              className={cn("object-contain transition-opacity duration-300", loadedMediaIndices.has(index) ? "opacity-100" : "opacity-0")}
+                              priority={index === 0}
+                              placeholder="blur"
+                              blurDataURL={BLUR_DATA_URL}
+                              onLoad={() => onMediaLoad(index)}
+                              onError={() => onMediaLoad(index)}
+                            />
+                          </div>
+                        ))}
                       </div>
                     </div>
 
-                    {/* Navigation */}
-                    {mediaItems.length > 1 && (
-                      <>
-                        <button
-                          onClick={prevMedia}
-                          className="absolute left-4 top-1/2 -translate-y-1/2 p-2 bg-black/50 text-white rounded-full hover:bg-black/70 transition-colors z-10"
-                        >
-                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                          </svg>
-                        </button>
-
-                        <button
-                          onClick={nextMedia}
-                          className="absolute right-4 top-1/2 -translate-y-1/2 p-2 bg-black/50 text-white rounded-full hover:bg-black/70 transition-colors z-10"
-                        >
-                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                          </svg>
-                        </button>
-
-                        <div className="absolute bottom-4 right-4 px-3 py-1 bg-black/50 text-white text-sm rounded-full z-10">
-                          {currentMediaIndex + 1} / {mediaItems.length}
-                        </div>
-                      </>
-                    )}
+                    <button onClick={prevMedia} className="absolute left-3 top-1/2 -translate-y-1/2 p-2 bg-black/50 text-white rounded-full hover:bg-black/70 transition-colors z-10">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                      </svg>
+                    </button>
+                    <button onClick={nextMedia} className="absolute right-3 top-1/2 -translate-y-1/2 p-2 bg-black/50 text-white rounded-full hover:bg-black/70 transition-colors z-10">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </button>
+                    <div className="absolute bottom-3 right-3 px-3 py-1 bg-black/50 text-white text-sm rounded-full z-10">
+                      {currentMediaIndex + 1} / {mediaItems.length}
+                    </div>
                   </div>
                 )}
 
-                {/* Thumbnails */}
-                {mediaItems.length > 1 && mediaAspectRatios.length === mediaItems.length && (
-                  <div className="flex gap-2 mt-4 overflow-x-auto">
+                {mediaItems.length > 1 && ratiosReady && (
+                  <div className="flex gap-2 mt-4 overflow-x-auto pb-1">
                     {mediaItems.map((mediaItem, index) => (
                       <button
                         key={index}
@@ -311,16 +252,15 @@ const BrandModal = ({ isOpen, onClose, brand }: BrandModalProps) => {
                             : "border-border hover:border-muted-foreground"
                         )}
                       >
-                        {!loadedThumbIndices.has(index) && (
-                          <Skeleton className="absolute inset-0 rounded-lg" />
-                        )}
+                        {!loadedThumbIndices.has(index) && <Skeleton className="absolute inset-0 rounded-lg z-10" />}
                         <Image
                           src={mediaItem.src}
                           alt={`Thumbnail ${index + 1}`}
                           fill
                           sizes="64px"
                           className={cn("object-cover transition-opacity duration-200", loadedThumbIndices.has(index) ? "opacity-100" : "opacity-0")}
-                          loading="lazy"
+                          placeholder="blur"
+                          blurDataURL={BLUR_DATA_URL}
                           onLoad={() => onThumbLoad(index)}
                           onError={() => onThumbLoad(index)}
                         />
@@ -331,9 +271,7 @@ const BrandModal = ({ isOpen, onClose, brand }: BrandModalProps) => {
               </div>
             )}
 
-            {/* Brand Details */}
             <div className="grid lg:grid-cols-3 gap-8">
-              {/* Main Content */}
               <div className="lg:col-span-2 space-y-6">
                 <div>
                   <h3 className="text-xl font-semibold text-foreground mb-3">About This Brand</h3>
@@ -342,7 +280,6 @@ const BrandModal = ({ isOpen, onClose, brand }: BrandModalProps) => {
                   </p>
                 </div>
 
-                {/* Metrics */}
                 {brand.metrics && brand.metrics.length > 0 && (
                   <div>
                     <h3 className="text-xl font-semibold text-foreground mb-3">Key Metrics</h3>
@@ -357,12 +294,9 @@ const BrandModal = ({ isOpen, onClose, brand }: BrandModalProps) => {
                   </div>
                 )}
 
-                {/* Accomplishments */}
                 {brand.accomplishments && brand.accomplishments.length > 0 && (
                   <div>
-                    <h3 className="text-xl font-semibold text-foreground mb-3">
-                      Major Accomplishments
-                    </h3>
+                    <h3 className="text-xl font-semibold text-foreground mb-3">Major Accomplishments</h3>
                     <ul className="space-y-2">
                       {brand.accomplishments.map((accomplishment, index) => (
                         <li key={index} className="flex items-start gap-3">
@@ -375,18 +309,13 @@ const BrandModal = ({ isOpen, onClose, brand }: BrandModalProps) => {
                 )}
               </div>
 
-              {/* Sidebar */}
               <div className="space-y-6">
-                {/* Frameworks */}
                 {brand.frameworks && brand.frameworks.length > 0 && (
                   <div>
                     <h3 className="text-lg font-semibold text-foreground mb-3">Technologies</h3>
                     <div className="flex flex-wrap gap-2">
                       {brand.frameworks.map((tech, index) => (
-                        <span
-                          key={index}
-                          className="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium"
-                        >
+                        <span key={index} className="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium">
                           {tech}
                         </span>
                       ))}
@@ -394,7 +323,6 @@ const BrandModal = ({ isOpen, onClose, brand }: BrandModalProps) => {
                   </div>
                 )}
 
-                {/* Features */}
                 {brand.features && brand.features.length > 0 && (
                   <div>
                     <h3 className="text-lg font-semibold text-foreground mb-3">Key Features</h3>
@@ -409,7 +337,6 @@ const BrandModal = ({ isOpen, onClose, brand }: BrandModalProps) => {
                   </div>
                 )}
 
-                {/* Links */}
                 <div>
                   <h3 className="text-lg font-semibold text-foreground mb-3">Links</h3>
                   <div className="space-y-3">
@@ -421,12 +348,7 @@ const BrandModal = ({ isOpen, onClose, brand }: BrandModalProps) => {
                     >
                       <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
                         <svg className="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-                          />
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                         </svg>
                       </div>
                       <span className="text-foreground font-medium">Visit Website</span>
@@ -435,7 +357,6 @@ const BrandModal = ({ isOpen, onClose, brand }: BrandModalProps) => {
                 </div>
               </div>
             </div>
-            {/* end details */}
           </div>
         </div>
       </div>

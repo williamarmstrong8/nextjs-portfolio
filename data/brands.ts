@@ -97,6 +97,7 @@ export const brands: Brand[] = [
     frameworks: ["Squarespace", "Strava", "Social Media Marketing", "Brand Partnerships", "SF Wide Community Awareness"],
     screenshots: [
       "/brands/happy-mile/gathering.jpeg",
+      "/brands/happy-mile/community.jpeg",
       "/brands/happy-mile/merch.jpeg",
       "/brands/happy-mile/pickle-ball.jpeg",
       "/brands/happy-mile/more-runners-2.jpeg",
