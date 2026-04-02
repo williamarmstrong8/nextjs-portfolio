@@ -59,15 +59,15 @@ export const brands: Brand[] = [
     frameworks: ["Vercel", "Next.js", "Social Media Marketing", "Instagram Branding", "Canva"],
     screenshots: [
       "/brands/modbrew/wide.jpeg",
+      "/brands/modbrew/line1.jpeg",
+      "/brands/modbrew/line2.jpeg",
+      "/brands/modbrew/shop.jpeg",
+      "/brands/modbrew/shop2.jpeg",
       "/brands/modbrew/group.jpeg",
       "/brands/modbrew/hand.jpeg",
       "/brands/modbrew/window.jpeg",
       "/brands/modbrew/hub.png",
-      "/brands/modbrew/line1.jpeg",
-      "/brands/modbrew/line2.jpeg",
-      "/brands/modbrew/mary.jpeg",
-      "/brands/modbrew/shop.jpeg",
-      "/brands/modbrew/shop2.jpeg"
+      "/brands/modbrew/mary.jpeg"
     ],
     accomplishments: [
       "Served 1000+ customers in first semester",
@@ -97,11 +97,12 @@ export const brands: Brand[] = [
     frameworks: ["Squarespace", "Strava", "Social Media Marketing", "Brand Partnerships", "SF Wide Community Awareness"],
     screenshots: [
       "/brands/happy-mile/gathering.jpeg",
-      "/brands/happy-mile/merch.jpeg",
+      "/brands/happy-mile/community.jpeg",
       "/brands/happy-mile/pickle-ball.jpeg",
       "/brands/happy-mile/more-runners-2.jpeg",
       "/brands/happy-mile/runners-more.jpeg",
-      "/brands/happy-mile/runner-brdige.jpeg"
+      "/brands/happy-mile/runner-brdige.jpeg",
+      "/brands/happy-mile/merch.jpeg"
     ],
     accomplishments: [
       "100+ weekly active runners",

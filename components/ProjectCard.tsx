@@ -32,7 +32,7 @@ const ProjectGridCard = ({
       type="button"
       onClick={onClick}
       className={cn(
-        "w-full text-left flex flex-col transition-all duration-300 ease-out hover:scale-[1.02] cursor-pointer group",
+        "w-full text-left flex flex-col cursor-pointer group transform-gpu transition-[transform,box-shadow] duration-300 ease-out hover:-translate-y-1",
         size === "compact" ? "min-h-0" : "",
         className
       )}
@@ -86,10 +86,7 @@ const ProjectGridCard = ({
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             placeholder="blur"
             blurDataURL={BLUR_DATA_URL}
-            className={cn(
-              "object-cover transition-transform duration-500 group-hover:scale-105",
-              imageLoaded ? "opacity-100" : "opacity-0"
-            )}
+            className={cn("object-cover", imageLoaded ? "opacity-100" : "opacity-0")}
             onLoad={() => setImageLoaded(true)}
             onError={() => setImageError(true)}
           />

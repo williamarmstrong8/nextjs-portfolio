@@ -1,11 +1,10 @@
 "use client";
 
-import { useState, useEffect, useRef, useMemo, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
-import Link from "next/link";
-import { X, ExternalLink, Github } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { X, ExternalLink, Github, ChevronLeft, ChevronRight, Play } from "lucide-react";
+import { BLUR_DATA_URL } from "@/lib/blur";
 import { Skeleton } from "@/components/ui/skeleton";
 
 interface Project {
@@ -18,6 +17,7 @@ interface Project {
   thumbnail?: string;
   images?: string[];
   videos?: string[];
+  videoPoster?: string;
   technologies?: string[];
   features?: string[];
   link?: string;
@@ -30,11 +30,39 @@ interface ProjectModalProps {
   project: Project | null | undefined;
 }
 
+const DEFAULT_RATIO = 16 / 9;
+
+function measureImageRatio(src: string): Promise<number> {
+  return new Promise((resolve) => {
+    const img = document.createElement("img");
+    img.onload = () => resolve(img.naturalWidth / img.naturalHeight);
+    img.onerror = () => resolve(DEFAULT_RATIO);
+    img.src = src;
+  });
+}
+
+function measureVideoRatio(src: string): Promise<number> {
+  return new Promise((resolve) => {
+    const vid = document.createElement("video");
+    vid.onloadedmetadata = () => {
+      resolve((vid.videoWidth || 16) / (vid.videoHeight || 9));
+      vid.src = "";
+    };
+    vid.onerror = () => {
+      resolve(DEFAULT_RATIO);
+      vid.src = "";
+    };
+    vid.preload = "metadata";
+    vid.src = src;
+  });
+}
+
 const ProjectModal = ({ isOpen, onClose, project }: ProjectModalProps) => {
   const [currentMediaIndex, setCurrentMediaIndex] = useState(0);
   const [mediaAspectRatios, setMediaAspectRatios] = useState<number[]>([]);
   const [loadedMediaIndices, setLoadedMediaIndices] = useState<Set<number>>(new Set());
   const [loadedThumbIndices, setLoadedThumbIndices] = useState<Set<number>>(new Set());
+  const [playingVideos, setPlayingVideos] = useState<Set<number>>(new Set());
   const containerRef = useRef<HTMLDivElement>(null);
 
   const onMediaLoad = useCallback((index: number) => {
@@ -44,13 +72,12 @@ const ProjectModal = ({ isOpen, onClose, project }: ProjectModalProps) => {
     setLoadedThumbIndices((prev) => new Set(prev).add(index));
   }, []);
 
-  const mediaItems = useMemo(
-    () => [
-      ...(project?.images?.map(img => ({ type: 'image' as const, src: img })) || []),
-      ...(project?.videos?.map(vid => ({ type: 'video' as const, src: vid })) || []),
-    ],
-    [project?.images, project?.videos]
-  );
+  const mediaItems = [
+    ...(project?.images?.map(img => ({ type: 'image' as const, src: img })) ?? []),
+    ...(project?.videos?.map(vid => ({ type: 'video' as const, src: vid })) ?? []),
+  ];
+
+  const videoPoster = project?.videoPoster;
 
   useEffect(() => {
     if (isOpen) {
@@ -65,12 +92,12 @@ const ProjectModal = ({ isOpen, onClose, project }: ProjectModalProps) => {
     }
   }, [isOpen]);
 
-  // Reset aspect ratios and loaded state when modal opens or project changes
   useEffect(() => {
     if (isOpen && project) {
       setMediaAspectRatios([]);
       setLoadedMediaIndices(new Set());
       setLoadedThumbIndices(new Set());
+      setPlayingVideos(new Set());
     }
   }, [isOpen, project]);
 
@@ -82,103 +109,195 @@ const ProjectModal = ({ isOpen, onClose, project }: ProjectModalProps) => {
     return () => document.removeEventListener('keydown', handleEscape);
   }, [isOpen, onClose]);
 
+  // Non-blocking parallel aspect ratio measurement
   useEffect(() => {
-    if (mediaItems.length > 0) {
-      const loadAspectRatios = async () => {
-        const ratios: number[] = [];
-        for (const mediaItem of mediaItems) {
-          if (mediaItem.type === 'image') {
-            const img = document.createElement('img');
-            await new Promise((resolve) => {
-              img.onload = () => {
-                ratios.push(img.naturalWidth / img.naturalHeight);
-                resolve(true);
-              };
-              img.onerror = () => {
-                ratios.push(4 / 3);
-                resolve(true);
-              };
-              img.src = mediaItem.src;
-            });
-          } else {
-            const vid = document.createElement("video");
-            await new Promise((resolve) => {
-              const cleanup = () => {
-                vid.onloadedmetadata = null;
-                vid.onerror = null;
-                // Help GC on some browsers
-                vid.src = "";
-              };
+    if (!isOpen || mediaItems.length <= 1) return;
+    let cancelled = false;
 
-              vid.onloadedmetadata = () => {
-                const w = vid.videoWidth || 16;
-                const h = vid.videoHeight || 9;
-                ratios.push(w / h);
-                cleanup();
-                resolve(true);
-              };
-              vid.onerror = () => {
-                ratios.push(16 / 9);
-                cleanup();
-                resolve(true);
-              };
+    Promise.all(
+      mediaItems.map((item) =>
+        item.type === "image" ? measureImageRatio(item.src) : measureVideoRatio(item.src)
+      )
+    ).then((ratios) => {
+      if (!cancelled) setMediaAspectRatios(ratios);
+    });
 
-              vid.preload = "metadata";
-              vid.src = mediaItem.src;
-            });
-          }
-        }
-        setMediaAspectRatios(ratios);
-      };
-      loadAspectRatios();
-    }
-  }, [mediaItems]);
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen, project]);
 
   if (!isOpen || !project) return null;
 
   const nextMedia = () => {
-    if (mediaItems.length > 0) {
+    if (mediaItems.length > 1) {
       setCurrentMediaIndex((prev) => (prev + 1) % mediaItems.length);
     }
   };
 
   const prevMedia = () => {
-    if (mediaItems.length > 0) {
+    if (mediaItems.length > 1) {
       setCurrentMediaIndex((prev) => (prev - 1 + mediaItems.length) % mediaItems.length);
     }
   };
 
+  const startVideo = (index: number) => {
+    setPlayingVideos((prev) => new Set(prev).add(index));
+  };
+
+  const ratiosReady = mediaAspectRatios.length === mediaItems.length;
+  const ratios = ratiosReady ? mediaAspectRatios : mediaItems.map(() => DEFAULT_RATIO);
+
   const calculateTransform = () => {
-    if (!containerRef.current || mediaItems.length === 0 || mediaAspectRatios.length === 0) {
-      return 'translateX(0)';
-    }
+    if (!containerRef.current || mediaItems.length <= 1) return "translateX(0)";
 
     const containerWidth = containerRef.current.offsetWidth;
     const containerHeight = containerRef.current.offsetHeight;
-    const mediaWidths = mediaAspectRatios.map(ratio => containerHeight * ratio);
+    const mediaWidths = ratios.map((r) => containerHeight * r);
 
-    let cumulativeWidth = 0;
-    const mediaPositions = mediaWidths.map(width => {
-      const position = cumulativeWidth;
-      cumulativeWidth += width;
-      return position;
-    });
+    let cum = 0;
+    const positions = mediaWidths.map((w) => { const p = cum; cum += w; return p; });
 
-    const currentMediaPosition = mediaPositions[currentMediaIndex] || 0;
-    const currentMediaWidth = mediaWidths[currentMediaIndex] || containerWidth;
-    const currentMediaCenter = currentMediaPosition + (currentMediaWidth / 2);
+    if (currentMediaIndex === 0) return "translateX(0px)";
 
-    if (currentMediaIndex === 0) return 'translateX(0px)';
     if (currentMediaIndex === mediaItems.length - 1) {
-      const totalWidth = mediaPositions[mediaPositions.length - 1] + mediaWidths[mediaWidths.length - 1];
-      const translateX = Math.max(0, totalWidth - containerWidth);
-      return `translateX(-${translateX}px)`;
+      const total = positions[positions.length - 1] + mediaWidths[mediaWidths.length - 1];
+      return `translateX(-${Math.max(0, total - containerWidth)}px)`;
     }
 
-    const containerCenter = containerWidth / 2;
-    const translateX = Math.max(0, currentMediaCenter - containerCenter);
-    return `translateX(-${translateX}px)`;
+    const center = positions[currentMediaIndex] + mediaWidths[currentMediaIndex] / 2;
+    return `translateX(-${Math.max(0, center - containerWidth / 2)}px)`;
   };
+
+  const renderSingleImage = () => (
+    <div className="relative w-full aspect-video max-h-[70vh] mx-auto rounded-2xl overflow-hidden bg-muted">
+      {!loadedMediaIndices.has(0) && <Skeleton className="absolute inset-0 rounded-2xl z-10" />}
+      <Image
+        src={mediaItems[0].src}
+        alt={`${project.title} screenshot`}
+        fill
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1100px"
+        className={cn("object-contain transition-opacity duration-300", loadedMediaIndices.has(0) ? "opacity-100" : "opacity-0")}
+        priority
+        placeholder="blur"
+        blurDataURL={BLUR_DATA_URL}
+        onLoad={() => onMediaLoad(0)}
+        onError={() => onMediaLoad(0)}
+      />
+    </div>
+  );
+
+  const renderSingleVideo = () => (
+    <div className="relative w-full aspect-video max-h-[70vh] rounded-2xl overflow-hidden bg-black">
+      {playingVideos.has(0) ? (
+        <video
+          src={mediaItems[0].src}
+          className="absolute inset-0 w-full h-full object-contain"
+          controls autoPlay playsInline preload="auto"
+        />
+      ) : videoPoster ? (
+        <button type="button" onClick={() => startVideo(0)} className="relative w-full h-full group cursor-pointer">
+          <Image src={videoPoster} alt={`${project.title} video`} fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1100px" className="object-contain" priority placeholder="blur" blurDataURL={BLUR_DATA_URL} />
+          <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition-colors">
+            <div className="w-16 h-16 rounded-full bg-white/90 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+              <Play className="w-7 h-7 text-black ml-1" fill="currentColor" />
+            </div>
+          </div>
+        </button>
+      ) : (
+        <button type="button" onClick={() => startVideo(0)} className="relative w-full h-full group cursor-pointer">
+          <video
+            src={mediaItems[0].src}
+            className="absolute inset-0 w-full h-full object-contain pointer-events-none"
+            muted playsInline preload="metadata"
+          />
+          <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition-colors">
+            <div className="w-16 h-16 rounded-full bg-white/90 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+              <Play className="w-7 h-7 text-black ml-1" fill="currentColor" />
+            </div>
+          </div>
+        </button>
+      )}
+    </div>
+  );
+
+  const renderCarousel = () => (
+    <div className="relative rounded-2xl overflow-hidden bg-muted">
+      <div ref={containerRef} className="w-full aspect-video overflow-hidden">
+        <div
+          className="flex transition-transform duration-300 ease-in-out h-full"
+          style={{ transform: calculateTransform() }}
+        >
+          {mediaItems.map((mediaItem, index) => (
+            <div
+              key={index}
+              className="flex-shrink-0 relative overflow-hidden h-full"
+              style={{ aspectRatio: ratios[index] }}
+            >
+              {mediaItem.type === "image" ? (
+                <>
+                  {!loadedMediaIndices.has(index) && <Skeleton className="absolute inset-0 z-10" />}
+                  <Image
+                    src={mediaItem.src}
+                    alt={`${project.title} - Screenshot ${index + 1}`}
+                    fill
+                    sizes="600px"
+                    className={cn("object-contain transition-opacity duration-300", loadedMediaIndices.has(index) ? "opacity-100" : "opacity-0")}
+                    priority={index === 0}
+                    placeholder="blur"
+                    blurDataURL={BLUR_DATA_URL}
+                    onLoad={() => onMediaLoad(index)}
+                    onError={() => onMediaLoad(index)}
+                  />
+                </>
+              ) : (
+                <div className="h-full w-full bg-black flex items-center justify-center">
+                  {playingVideos.has(index) ? (
+                    <video
+                      src={mediaItem.src}
+                      className="absolute inset-0 w-full h-full object-contain"
+                      controls autoPlay playsInline preload="auto"
+                    />
+                  ) : videoPoster ? (
+                    <button type="button" onClick={() => startVideo(index)} className="relative w-full h-full group cursor-pointer">
+                      <Image src={videoPoster} alt={`${project.title} video`} fill sizes="600px" className="object-contain" placeholder="blur" blurDataURL={BLUR_DATA_URL} />
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition-colors">
+                        <div className="w-16 h-16 rounded-full bg-white/90 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                          <Play className="w-7 h-7 text-black ml-1" fill="currentColor" />
+                        </div>
+                      </div>
+                    </button>
+                  ) : (
+                    <button type="button" onClick={() => startVideo(index)} className="relative w-full h-full group cursor-pointer">
+                      <video
+                        src={mediaItem.src}
+                        className="absolute inset-0 w-full h-full object-contain pointer-events-none"
+                        muted playsInline preload="metadata"
+                      />
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition-colors">
+                        <div className="w-16 h-16 rounded-full bg-white/90 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                          <Play className="w-7 h-7 text-black ml-1" fill="currentColor" />
+                        </div>
+                      </div>
+                    </button>
+                  )}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <button onClick={prevMedia} className="absolute left-3 top-1/2 -translate-y-1/2 p-2 bg-black/50 text-white rounded-full hover:bg-black/70 transition-colors z-10">
+        <ChevronLeft className="w-5 h-5" />
+      </button>
+      <button onClick={nextMedia} className="absolute right-3 top-1/2 -translate-y-1/2 p-2 bg-black/50 text-white rounded-full hover:bg-black/70 transition-colors z-10">
+        <ChevronRight className="w-5 h-5" />
+      </button>
+      <div className="absolute bottom-3 right-3 px-3 py-1 bg-black/50 text-white text-sm rounded-full z-10">
+        {currentMediaIndex + 1} / {mediaItems.length}
+      </div>
+    </div>
+  );
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
@@ -201,104 +320,15 @@ const ProjectModal = ({ isOpen, onClose, project }: ProjectModalProps) => {
           <div className="p-6 pb-12">
             {mediaItems.length > 0 && (
               <div className="mb-8">
-                {mediaAspectRatios.length !== mediaItems.length ? (
-                  <Skeleton
-                    className="w-full max-h-[70vh] rounded-2xl"
-                    style={{ aspectRatio: "16/9" }}
-                  />
-                ) : mediaItems.length === 1 && mediaItems[0].type === 'image' ? (
-                  <div className="relative w-full aspect-video max-h-[70vh] mx-auto rounded-2xl overflow-hidden bg-muted">
-                    {!loadedMediaIndices.has(0) && (
-                      <Skeleton className="absolute inset-0 rounded-2xl" />
-                    )}
-                    <Image
-                      src={mediaItems[0].src}
-                      alt={`${project.title} screenshot`}
-                      fill
-                      sizes="(max-width: 1200px) 100vw, 80vw"
-                      className={cn("object-contain rounded-2xl transition-opacity duration-200", loadedMediaIndices.has(0) ? "opacity-100" : "opacity-0")}
-                      loading="lazy"
-                      onLoad={() => onMediaLoad(0)}
-                      onError={() => onMediaLoad(0)}
-                    />
-                  </div>
-                ) : mediaItems.length === 1 && mediaItems[0].type === 'video' ? (
-                  <div className="relative w-full aspect-video max-h-[70vh] rounded-2xl overflow-hidden bg-black flex items-center justify-center">
-                    <video
-                      src={mediaItems[0].src}
-                      className="h-full w-auto max-w-full object-contain rounded-2xl"
-                      preload="metadata"
-                      playsInline
-                      controls
-                    />
-                  </div>
-                ) : (
-                  <div className="relative rounded-2xl overflow-hidden bg-muted">
-                    <div ref={containerRef} className="w-full aspect-video overflow-hidden">
-                      <div
-                        className="flex transition-transform duration-300 ease-in-out h-full"
-                        style={{ transform: calculateTransform() }}
-                      >
-                        {mediaItems.map((mediaItem, index) => (
-                          <div
-                            key={index}
-                            className="flex-shrink-0 relative overflow-hidden h-full bg-muted"
-                            style={{ aspectRatio: mediaAspectRatios[index] }}
-                          >
-                            {mediaItem.type === 'image' ? (
-                              <>
-                                {!loadedMediaIndices.has(index) && (
-                                  <Skeleton className="absolute inset-0" />
-                                )}
-                                <Image
-                                  src={mediaItem.src}
-                                  alt={`${project.title} - Screenshot ${index + 1}`}
-                                  fill
-                                  sizes="600px"
-                                  className={cn("object-contain transition-opacity duration-200", loadedMediaIndices.has(index) ? "opacity-100" : "opacity-0")}
-                                  loading="lazy"
-                                  onLoad={() => onMediaLoad(index)}
-                                  onError={() => onMediaLoad(index)}
-                                />
-                              </>
-                            ) : (
-                              <div className="h-full w-full bg-black flex items-center justify-center">
-                                <video
-                                  src={mediaItem.src}
-                                  className="h-full w-auto max-w-full object-contain"
-                                  preload="metadata"
-                                  playsInline
-                                  controls
-                                />
-                              </div>
-                            )}
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    {mediaItems.length > 1 && (
-                      <>
-                        <button onClick={prevMedia} className="absolute left-4 top-1/2 -translate-y-1/2 p-2 bg-black/50 text-white rounded-full hover:bg-black/70 transition-colors z-10">
-                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                          </svg>
-                        </button>
-                        <button onClick={nextMedia} className="absolute right-4 top-1/2 -translate-y-1/2 p-2 bg-black/50 text-white rounded-full hover:bg-black/70 transition-colors z-10">
-                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                          </svg>
-                        </button>
-                        <div className="absolute bottom-4 right-4 px-3 py-1 bg-black/50 text-white text-sm rounded-full z-10">
-                          {currentMediaIndex + 1} / {mediaItems.length}
-                        </div>
-                      </>
-                    )}
-                  </div>
+                {mediaItems.length === 1 && mediaItems[0].type === "image" && renderSingleImage()}
+                {mediaItems.length === 1 && mediaItems[0].type === "video" && renderSingleVideo()}
+                {mediaItems.length > 1 && !ratiosReady && (
+                  <Skeleton className="w-full rounded-2xl" style={{ aspectRatio: "16/9" }} />
                 )}
+                {mediaItems.length > 1 && ratiosReady && renderCarousel()}
 
-                {mediaItems.length > 1 && mediaAspectRatios.length === mediaItems.length && (
-                  <div className="flex gap-2 mt-4 overflow-x-auto">
+                {mediaItems.length > 1 && ratiosReady && (
+                  <div className="flex gap-2 mt-4 overflow-x-auto pb-1">
                     {mediaItems.map((mediaItem, index) => (
                       <button
                         key={index}
@@ -308,35 +338,30 @@ const ProjectModal = ({ isOpen, onClose, project }: ProjectModalProps) => {
                           currentMediaIndex === index ? "border-primary" : "border-border hover:border-muted-foreground"
                         )}
                       >
-                        {mediaItem.type === 'image' ? (
+                        {mediaItem.type === "image" ? (
                           <>
-                            {!loadedThumbIndices.has(index) && (
-                              <Skeleton className="absolute inset-0 rounded-lg" />
-                            )}
+                            {!loadedThumbIndices.has(index) && <Skeleton className="absolute inset-0 rounded-lg z-10" />}
                             <Image
                               src={mediaItem.src}
                               alt={`Thumbnail ${index + 1}`}
                               fill
                               sizes="64px"
                               className={cn("object-cover transition-opacity duration-200", loadedThumbIndices.has(index) ? "opacity-100" : "opacity-0")}
-                              loading="lazy"
+                              placeholder="blur"
+                              blurDataURL={BLUR_DATA_URL}
                               onLoad={() => onThumbLoad(index)}
                               onError={() => onThumbLoad(index)}
                             />
                           </>
                         ) : (
-                          <div className="w-full h-full bg-muted relative">
-                            <video
-                              src={mediaItem.src}
-                              className="w-full h-full object-cover"
-                              muted
-                              playsInline
-                              preload="metadata"
-                            />
-                            <div className="absolute inset-0 flex items-center justify-center bg-black/10">
-                              <svg className="w-6 h-6 text-white drop-shadow" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M8 5v14l11-7z" />
-                              </svg>
+                          <div className="w-full h-full relative bg-zinc-900">
+                            {videoPoster ? (
+                              <Image src={videoPoster} alt={`Video ${index + 1}`} fill sizes="64px" className="object-cover" placeholder="blur" blurDataURL={BLUR_DATA_URL} />
+                            ) : (
+                              <video src={mediaItem.src} className="w-full h-full object-cover" muted playsInline preload="metadata" />
+                            )}
+                            <div className="absolute inset-0 flex items-center justify-center bg-black/20">
+                              <Play className="w-5 h-5 text-white drop-shadow" fill="currentColor" />
                             </div>
                           </div>
                         )}
@@ -390,12 +415,7 @@ const ProjectModal = ({ isOpen, onClose, project }: ProjectModalProps) => {
                     <h3 className="text-lg font-semibold text-foreground mb-3">Links</h3>
                     <div className="space-y-3">
                       {project.link && (
-                        <a
-                          href={project.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-3 p-3 bg-card border border-border rounded-xl hover:bg-accent/5 transition-colors"
-                        >
+                        <a href={project.link} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 p-3 bg-card border border-border rounded-xl hover:bg-accent/5 transition-colors">
                           <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
                             <ExternalLink className="w-4 h-4 text-primary" />
                           </div>
@@ -403,12 +423,7 @@ const ProjectModal = ({ isOpen, onClose, project }: ProjectModalProps) => {
                         </a>
                       )}
                       {project.github && (
-                        <a
-                          href={project.github}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-3 p-3 bg-card border border-border rounded-xl hover:bg-accent/5 transition-colors"
-                        >
+                        <a href={project.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 p-3 bg-card border border-border rounded-xl hover:bg-accent/5 transition-colors">
                           <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
                             <Github className="w-4 h-4 text-primary" />
                           </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, startTransition } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import ProjectGridCard from "@/components/ProjectCard";
 import ProjectFilter from "@/components/ProjectFilter";
@@ -41,7 +41,7 @@ const ProjectsClient = ({ projects }: ProjectsClientProps) => {
     : projects.filter(project => project.category === activeFilter);
 
   const handleProjectClick = (projectId: number) => {
-    setSelectedProject(projectId);
+    startTransition(() => setSelectedProject(projectId));
   };
 
   const handleCloseModal = () => {
