@@ -3,7 +3,7 @@ import { getAllPosts, getCategories } from "@/lib/blog/api";
 import BlogClient from "@/components/blog/BlogClient";
 
 export const metadata: Metadata = {
-  title: "Blog | William Armstrong - GTM Engineer & Entrepreneur",
+  title: "Blog | William Armstrong - Solutions Engineer & Entrepreneur",
   description:
     "Thoughts on my building process and what I learn. William Armstrong on product, engineering, and shipping.",
   alternates: { canonical: "/blog" },
