@@ -15,9 +15,9 @@ const baseUrl =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://williamarmstrong.vercel.app";
 
 export const metadata: Metadata = {
-  title: "William Armstrong - Product Engineer & Entrepreneur",
+  title: "William Armstrong - Solutions Engineer & Entrepreneur",
   description:
-    "Portfolio of William Armstrong: Product Engineer specializing in human-centered design, entrepreneur, and creative professional building innovative solutions.",
+    "Portfolio of William Armstrong: Solutions Engineer bridging product, engineering, and business. Entrepreneur and creative professional building practical, scalable systems.",
   metadataBase: new URL(baseUrl),
   manifest: "/manifest.json",
   icons: {
@@ -26,9 +26,9 @@ export const metadata: Metadata = {
     apple: "/fav1.jpg",
   },
   openGraph: {
-    title: "William Armstrong - Product Engineer & Entrepreneur",
+    title: "William Armstrong - Solutions Engineer & Entrepreneur",
     description:
-      "Portfolio of William Armstrong: Product Engineer specializing in human-centered design, entrepreneur, and creative professional.",
+      "Portfolio of William Armstrong: Solutions Engineer bridging product, engineering, and business. Entrepreneur and creative professional.",
     siteName: "William Armstrong Portfolio",
     locale: "en_US",
     type: "website",
@@ -36,9 +36,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "William Armstrong - Product Engineer & Entrepreneur",
+    title: "William Armstrong - Solutions Engineer & Entrepreneur",
     description:
-      "Portfolio of William Armstrong: Product Engineer specializing in human-centered design and innovative solutions.",
+      "Portfolio of William Armstrong: Solutions Engineer bridging product, engineering, and business with practical technical solutions.",
     creator: "@williamarmstrong",
     images: ["/fav1.jpg"],
   },
