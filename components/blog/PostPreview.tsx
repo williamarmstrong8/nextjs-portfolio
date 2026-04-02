@@ -32,7 +32,7 @@ export default function PostPreview({
     <article className="group flex flex-col">
       <Link
         href={`/blog/${slug}`}
-        className="flex flex-col w-full text-left transition-all duration-300 ease-out hover:scale-[1.02]"
+        className="flex flex-col w-full text-left transform-gpu transition-[transform] duration-300 ease-out hover:-translate-y-1"
       >
         {/* Image Card - distinct visual card, same style as project/startup cards */}
         <div className="relative w-full overflow-hidden rounded-2xl border border-border/80 bg-gradient-to-br from-muted/20 via-muted/10 to-muted/30 aspect-video shadow-[0_2px_12px_hsl(222_47%_11%_/_0.08)] transition-shadow duration-300 group-hover:shadow-lg">
@@ -42,7 +42,7 @@ export default function PostPreview({
               alt={title}
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              className="object-cover transition-transform duration-500 group-hover:scale-105"
+              className="object-cover"
               style={{ opacity: imageLoaded ? 1 : 0 }}
               onLoad={() => setImageLoaded(true)}
               onError={() => setImageError(true)}

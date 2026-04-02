@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, startTransition } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { BLUR_DATA_URL } from "@/lib/blur";
@@ -12,8 +12,10 @@ const BrandCards = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = (brand: Brand) => {
-    setSelectedBrand(brand);
-    setIsModalOpen(true);
+    startTransition(() => {
+      setSelectedBrand(brand);
+      setIsModalOpen(true);
+    });
   };
 
   const handleCardKeyDown = (e: React.KeyboardEvent, brand: Brand) => {
@@ -68,7 +70,7 @@ const BrandCards = () => {
                     sizes="(max-width: 1024px) 100vw, 50vw"
                     placeholder="blur"
                     blurDataURL={BLUR_DATA_URL}
-                    className="object-cover transition-transform duration-500 group-hover/card:scale-105"
+                    className="object-cover"
                   />
                 ) : (
                   <div className="absolute inset-0 flex items-center justify-center p-8">
@@ -77,7 +79,7 @@ const BrandCards = () => {
                         src={brand.logo}
                         alt={`${brand.name} logo`}
                         fill
-                        className="object-contain transition-transform duration-300 group-hover/card:scale-105"
+                        className="object-contain"
                         sizes="112px"
                         placeholder="blur"
                         blurDataURL={BLUR_DATA_URL}

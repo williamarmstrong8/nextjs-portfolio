@@ -52,7 +52,7 @@ const ProjectsSection = () => {
             >
               <Link
                 href="/startups"
-                className="flex flex-col w-full text-left transition-all duration-300 ease-out hover:scale-[1.02] group"
+                className="flex flex-col w-full text-left transform-gpu transition-[transform] duration-300 ease-out hover:-translate-y-1 group"
               >
                 {/* Image Card - distinct visual card with rounded corners and subtle styling */}
                 <div className="relative w-full overflow-hidden rounded-2xl border border-border/80 bg-gradient-to-br from-muted/20 via-muted/10 to-muted/30 aspect-video shadow-[0_2px_12px_hsl(222_47%_11%_/_0.08)] transition-shadow duration-300 group-hover:shadow-lg">
@@ -64,7 +64,7 @@ const ProjectsSection = () => {
                       sizes="(max-width: 1024px) 100vw, 33vw"
                       placeholder="blur"
                       blurDataURL={BLUR_DATA_URL}
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      className="object-cover"
                     />
                   ) : (
                     <div className="absolute inset-0 flex items-center justify-center p-8">
@@ -73,7 +73,7 @@ const ProjectsSection = () => {
                           src={brand.logo}
                           alt={brand.name}
                           fill
-                          className="object-contain transition-transform duration-300 group-hover:scale-105"
+                          className="object-contain"
                           sizes="112px"
                           placeholder="blur"
                           blurDataURL={BLUR_DATA_URL}
